@@ -7,7 +7,7 @@ shinyUI <- dashboardPage(
   dashboardSidebar(
     
     sidebarMenu(
-      
+      tags$head(includeCSS("Style.css")),
       menuItem("Management alternatives", tabName = "menu1", icon = icon("question-circle")),
       menuItem("Menu 2", tabName = "menu2", icon = icon("gears"))
       
@@ -26,13 +26,14 @@ shinyUI <- dashboardPage(
                 column(width = 6,
                        
                        
-                       tabBox(id = "tabP1", height=600,
+                       tabBox(id = "tabP1", height=750,
                               side = "left",    
-                              tabPanel("Alternative 1", p("No Action - Do not establish an allocation of the recreational sector component ACLs that may be used for state management programs.")
+                              tabPanel("Alternative 1", p(Alt1Text)
                                        ),
                               
                         
-                              tabPanel("Alternative 2", p("Establish an allocation of the recreational sector ACL that may be used for state management programs by apportioning the private angling ACL and federal for-hire ACL among the states based on the average of historical landings for the years:"),
+                              tabPanel("Alternative 2", p(Alt2Text),
+                                       hr(),
                                        radioButtons(inputId = "Alt2Radio", 
                                                     label = "Alternative 2 options", 
                                                     choices = c("Option 2a: 1986 - 2015",
@@ -40,11 +41,11 @@ shinyUI <- dashboardPage(
                                                                 "Option 2c 2006 - 2015", 
                                                                 "Option 2d: 50% of average historical landings for the years 1986-2015 and 50% of average historical landings for the years 2006-2015"), 
                                                     selected = "Option 2a: 1986 - 2015",  width='600px'),
-                                    
+                                       hr(),
                                        box(tableOutput("summaryTable"), width=6),
                                        box(tableOutput("summaryTableForHire"), width=6)
                                                                         ),
-                              tabPanel("Alternative 3", p("Establish an allocation of the recreational sector ACL that may be used for state management programs by apportioning the private angling ACL and federal for-hire ACL among the states based on the average of historical landings for the years:"),
+                              tabPanel("Alternative 3", p(Alt3Text),
                                        radioButtons(inputId = "Alt3Radio", 
                                                     label = "Alternative 3 options", 
                                                     choices = c("Option 3a: 1986 - 2009",
@@ -55,10 +56,11 @@ shinyUI <- dashboardPage(
                                      
                                        p('* More than one option may be selected'),
                                        p('** Not applicable to Alternative 3'),
+                                       hr(),
                                        box(tableOutput("summaryTableAlt3"), width=6),
                                        box(tableOutput("summaryTableForHireAlt3"), width=6)
                                       ),
-                              tabPanel("Alternative 4", p("In calculating state apportionments under Alternative 2 or 3, exclude from the selected time series, as appropriate:"),
+                              tabPanel("Alternative 4", p(Alt4Text),
                                        selectInput("selectOption", multiple=FALSE,
                                                    h3("Select start year"),
                                                    c("Option a: 1986"="OptionA",
@@ -95,7 +97,7 @@ shinyUI <- dashboardPage(
                               ),
                                        
                             
-                              tabPanel("Alternative 5", p("Establish an allocation of the recreational sector ACL that may be used for state management programs by apportioning the private angling ACL and federal for-hire ACL among the states based on each state's average of the best ten years of historical landings for the years 1986-2015."),
+                              tabPanel("Alternative 5", p(Alt5Text),
                                       box(
                                         sliderInput("topNumber", "Select number of years to include:", sep="",min = 5, max = 15, value = c(10)),
                                         sliderInput("Year", "Select Years:", sep="",min = 1986, max = 2015, value = c(1986,2015))
@@ -105,10 +107,16 @@ shinyUI <- dashboardPage(
                                       box(tableOutput("out32ForHire"), width=6)#,
                                       #box(tableOutput("topNdata"), width=12)
                                       ), #end tabpanel 5
-                              tabPanel("Alternative 6", p("Establish an allocation of the recreational sector ACL that may be used for state management programs by apportioning the private angling ACL and federal for-hire ACL among the states based on spatial abundance of red snapper biomass and recreational trips using:"),
+                              tabPanel("Alternative 6", p(Alt6Text),
                                        checkboxInput("Option6a", HTML("<b>Option 6a:</b> 25% biomass, 75% trips"), FALSE),
                                        checkboxInput("Option6b", HTML("<b>Option 6b:</b> 50% biomass, 50% trips"), TRUE),
-                                       checkboxInput("Option6c", HTML("<b>Option 6c:</b> 75% biomass, 25% trips"), FALSE)
+                                       checkboxInput("Option6c", HTML("<b>Option 6c:</b> 75% biomass, 25% trips"), FALSE),
+                                       hr(),
+                                       #box( numericInput("obs1", "Observations:", 10, min = 1, max = 100, width=50),
+                                            #numericInput("obs2", "Observations:", 10, min = 1, max = 100, width=50),
+                                            #numericInput("obs3", "Observations:", 10, min = 1, max = 100, width=50)),
+                                       box(tableOutput("dfToolTable"),width=12)#,
+                                       #box(tableOutput("testtable"),width=12)
                                         ),
                               
                               width = NULL)
@@ -128,7 +136,7 @@ shinyUI <- dashboardPage(
                               tabPanel("Alternative 3", p(" "),
                                        highchartOutput("landingsChartAlt3"),
                                        highchartOutput("landingsChartForHireAlt3")), ##UD
-                              tabPanel("Alternative 4", p("Tab 1 : right"),
+                              tabPanel("Alternative 4", p(" "),
                                        highchartOutput("landingsChartAlt4"),
                                        highchartOutput("landingsChartAlt4ForHire")),
                                        
@@ -136,7 +144,11 @@ shinyUI <- dashboardPage(
                               tabPanel("Alternative 5", p(""),
                                        highchartOutput("topNlandingsOut"),
                                        highchartOutput("topNlandingsOutForHire")),
-                              tabPanel("Alternative 6", p("Tab 3 : right")),
+                              tabPanel("Alternative 6", p("Interactive map of red snapper biomass in the Gulf of Mexico.
+                                                          Note, this may take a moment to load, please be patient."),
+                                       leafletOutput('map',height=600),
+                                       p("Data source: Mandy Karnauskas, John F. Walter III, Matthew D. Campbell, Adam G. Pollack, J. Marcus Drymon & Sean Powers.
+2017. Red Snapper Distribution on Natural Habitats and Artificial Structures in the Northern Gulf of Mexico.Marine and Coastal Fisheries Vol. 9 , Iss. 1,2017")),
                               width = NULL
                        ) 
                        

@@ -36,7 +36,7 @@ shinyServer <- function(input, output, session) {
       hc_add_series(name = "Mississippi", data = allRec$MS, type="line", marker = list(enabled = FALSE), color="#b2df8a") %>% 
       hc_add_series(name = "Louisiana", data = allRec$LA, type="line", marker = list(enabled = FALSE), color="#1f78b4") %>% 
       hc_add_series(name = "Texas", data = allRec$TX, type="line", marker = list(enabled = FALSE), color="#a6cee3") %>% 
-      hc_add_series(name = "DWH, 2010 not included", data = allRec$star, type="line", color="black") 
+      hc_add_series(name = "DWH, 2010 not included", data = allRec$star, type="scatter", color="black", marker=list(symbol="cross")) 
     recLandingsPlot
   })
   
@@ -97,23 +97,9 @@ shinyServer <- function(input, output, session) {
     x2$State <- c("FL", "AL", "MS", "LA", "TX")
     x2})
   
-  # landingsSummaryChart <- reactive({
-  #   x2 <-  landingsSummary()
-  #   hc <- highchart() %>% 
-  #     hc_chart(type = "column") %>% 
-  #     hc_title(text = "Percent Allocation") %>% 
-  #     hc_xAxis(categories = x2$State) %>% 
-  #     hc_add_series(data = x2$Allocation,
-  #                   name = "Allocation")
-  #   hc
-  # })
-  # 
-  # output$summaryChart <- renderHighchart({landingsSummaryChart()})
-  
-################# Summary chart ############################
   
 ################# Summary table
-  output$summaryTable <- renderTable({landingsSummary()},caption = "Private recreational component",
+  output$summaryTable <- renderTable({landingsSummary()[,c(1,3)]},caption = "Private recreational component",
                                      caption.placement = getOption("xtable.caption.placement", "top"),
                                      caption.width = getOption("xtable.caption.width", NULL))
   ############################  
@@ -196,7 +182,7 @@ shinyServer <- function(input, output, session) {
         summarise(Landings=mean(Landings) )
       x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
       x2$State <- c("FL", "AL", "MS", "LA", "TX")
-      x2}
+            x2}
     
     ####Separate section to calculate weighted mean
     if(input$Alt2Radio=="Option 2d: 50% of average historical landings for the years 1986-2015 and 50% of average historical landings for the years 2006-2015"){
@@ -251,7 +237,7 @@ shinyServer <- function(input, output, session) {
     if(input$Alt3Radio=="Option 3c: 2006 - 2009"){
       allRec <- Private
       allRec <- filter(allRec, YEAR >= 2006 & YEAR <=2009)}
-    if(input$Alt3Radio=="Option 3d: 50% of average historical landings for the years 1986-2015 and 50% of average historical landings for the years 2006-2015"){
+    if(input$Alt3Radio=="Option 3d: 50% of average historical landings for the years 1986-2009 and 50% of average historical landings for the years 2006-2009"){
       allRec <- Private
       allRec <- filter(allRec, YEAR >= 1986 & YEAR <=2009)}
     
@@ -313,7 +299,7 @@ shinyServer <- function(input, output, session) {
         summarise(Landings=mean(Landings) )
       x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
       x2$State <- c("FL", "AL", "MS", "LA", "TX")
-      x2}
+      x2} 
     
     ####Separate section to calculate weighted mean
     if(input$Alt3Radio=="Option 3d: 50% of average historical landings for the years 1986-2009 and 50% of average historical landings for the years 2006-2009"){
@@ -366,9 +352,9 @@ shinyServer <- function(input, output, session) {
     if(input$Alt3Radio=="Option 3c: 2006 - 2009"){
       allRec <- ForHire
       allRec <- filter(allRec, YEAR >= 2006 & YEAR <=2009)} else
-    if(input$Alt3Radio=="Option 3d: 50% of average historical landings for the years 1986-2015 and 50% of average historical landings for the years 2006-2015"){
+    if(input$Alt3Radio=="Option 3d: 50% of average historical landings for the years 1986-2009 and 50% of average historical landings for the years 2006-2009"){
       allRec <- ForHire
-      allRec <- filter(allRec, YEAR >= 1986 & YEAR <=2009)}
+      allRec <- filter(allRec, YEAR >= 1986 & YEAR <=2009)} 
     
     allRec
   })
@@ -520,7 +506,7 @@ shinyServer <- function(input, output, session) {
       hc_add_series(name = "Mississippi", data = allRec$MS, type="line", marker = list(enabled = FALSE), color="#b2df8a") %>%
       hc_add_series(name = "Louisiana", data = allRec$LA, type="line", marker = list(enabled = FALSE), color="#1f78b4") %>%
       hc_add_series(name = "Texas", data = allRec$TX, type="line", marker = list(enabled = FALSE), color="#a6cee3") %>%
-      hc_add_series(name = "DWH, 2010 not included", data = allRec$star, type="scatter", color="black")
+      hc_add_series(name = "DWH, 2010 not included", data = allRec$star, type="scatter", type="scatter", color="black", marker=list(symbol="cross"))
     recLandingsPlot
   })
   output$landingsChartAlt4 <- renderHighchart({LDAlt4()})
@@ -572,13 +558,15 @@ shinyServer <- function(input, output, session) {
                         x4$Allocation <- (x4$Landings/sum(x4$Landings))*100
                         xout <- (x2$Allocation*.5 + x4$Allocation*.5)
                         x2$Allocation <- xout
-                        x2$State <- c("FL", "AL", "MS", "LA", "TX")
-                        x2}
+                               # x2$State <- c("Florida", "Alabama", "Mississippi", "Louisiana", "Texas")
+                            x2}
      
         })
 
       # ################# Summary table
-      output$summaryTableAlt4Private <- renderTable({alt4summaryTablePrivate()},caption = "Private recreational component",
+      output$summaryTableAlt4Private <- renderTable({alt4summaryTablePrivate()[,c(1,3)]},
+                                                    striped=TRUE,digits=1,
+                                                    caption = "Private recreational component",
                                                     caption.placement = getOption("xtable.caption.placement", "top"),
                                                     caption.width = getOption("xtable.caption.width", NULL))
       #}
@@ -631,7 +619,7 @@ shinyServer <- function(input, output, session) {
           hc_add_series(name = "Mississippi", data = allRec$MS, type="line", marker = list(enabled = FALSE), color="#b2df8a") %>%
           hc_add_series(name = "Louisiana", data = allRec$LA, type="line", marker = list(enabled = FALSE), color="#1f78b4") %>%
           hc_add_series(name = "Texas", data = allRec$TX, type="line", marker = list(enabled = FALSE), color="#a6cee3") %>%
-          hc_add_series(name = "DWH, 2010 not included", data = allRec$star, type="scatter", color='black')
+          hc_add_series(name = "DWH, 2010 not included", data = allRec$star, type="scatter", color="black", marker=list(symbol="cross"))
         recLandingsPlot
       })
       output$landingsChartAlt4ForHire <- renderHighchart({LDAlt4ForHire()})
@@ -696,7 +684,7 @@ shinyServer <- function(input, output, session) {
   ###################################### End Alt 4 ###########################  
 ######################### Alternative 5
       topN <- reactive({
-        allRec <- Private
+        allRec <- Private2
         allRec <- filter(allRec, YEAR>=1986 & YEAR <=2015)
         ## define input from sliders
         ## this reactive allows user to select the range of years 
@@ -746,14 +734,18 @@ shinyServer <- function(input, output, session) {
         #topNout <- rbind(topNout,rev(Biomass$Biomass) )
         #rownames(topNout) <- c("Landings")
         topNout <- t(topNout)
-        x2 <- data.frame(State=x, Percent=topNout[,1]*100)
+        x2 <- data.frame(State=x, Percent=topNout[,1])
         rownames(x2) <- NULL
        x2
       })
       
       output$out32 <- renderTable({
         topN()
-      }, hover=TRUE, bordered=TRUE,  rownames=TRUE, digits=1)
+      },
+      striped=TRUE,digits=1,
+      caption = "Private recreational component",
+      caption.placement = getOption("xtable.caption.placement", "top"),
+      caption.width = getOption("xtable.caption.width", NULL))
       
 ######## Reactive for time series table of top N
       topNLandings <- reactive({
@@ -762,7 +754,7 @@ shinyServer <- function(input, output, session) {
         df2 <- data.frame(YEAR=6:9, z=1)
         df3 <- merge(df1,df2, by='YEAR', all=TRUE)
         
-        allRec <- Private
+        allRec <- Private2
         allRec <- filter(allRec, YEAR>=1986 & YEAR <=2015)
         N <- input$topNumber
         allRec <-   allRec %>% filter(YEAR <= input$Year[2] &  YEAR >= input$Year[1] & YEAR !=2010)
@@ -812,17 +804,22 @@ shinyServer <- function(input, output, session) {
       
       output$topNdata <- renderTable({
         topNLandings()
-      }, hover=TRUE, bordered=TRUE, width="500px", rownames=TRUE, digits=5)
+      }, 
+      striped=TRUE,digits=1,
+      caption = "Private recreational component",
+      caption.placement = getOption("xtable.caption.placement", "top"),
+      caption.width = getOption("xtable.caption.width", NULL))
 ######################## End Reactive for time series table of top N
 ### time series chart of top N      
       topNLandings <- reactive({
+        
         df1<- data.frame(YEAR=1986:2015)
         
-        df2 <- data.frame(YEAR=6:9, z=1)
-        df3 <- merge(df1,df2, by='YEAR', all=TRUE)
-        
-        allRec <- Private
+        allRec <- Private2
         allRec <- filter(allRec, YEAR>=1986 & YEAR <=2015)
+        allRec <- merge(df1,allRec, by='YEAR', all=TRUE)
+        
+        
         N <- input$topNumber
         allRec <-   allRec %>% filter(YEAR <= input$Year[2] &  YEAR >= input$Year[1] & YEAR !=2010)
         
@@ -872,16 +869,11 @@ shinyServer <- function(input, output, session) {
       
       ########## test high chart of all landings
       topNLandingsPlot <- reactive({
-        allRec <- Private
+        allRec <- Private2
         allRec <- filter(allRec, YEAR >=1986 & YEAR <=2015)
         hc <- highchart() %>% 
         hc_xAxis(categories =allRec$YEAR) %>%
         hc_title(text="Private recreational component") %>% 
-        # hc_xAxis(categories =allRec$YEAR,
-        #          plotBands=list(
-        #            list(color= "rgba(100, 0, 0, 0.1)",
-        #                 from=allRec$YEAR[29],
-        #                 to=allRec$YEAR[30]))) %>%
         hc_add_series(name = "Florida", data = allRec$FLW, type="line", marker = list(enabled = FALSE), color="#fb9a99") %>% 
         hc_add_series(name = "Alabama", data = allRec$AL, type="line", marker = list(enabled = FALSE), color="#33a02c") %>%
         hc_add_series(name = "Mississippi", data = allRec$MS, type="line", marker = list(enabled = FALSE), color="#b2df8a") %>%
@@ -892,7 +884,7 @@ shinyServer <- function(input, output, session) {
         hc_add_series(name = "Mississippi Selected", data = topNLandings()$MS, type="scatter", color="#b2df8a",showInLegend = FALSE) %>%
         hc_add_series(name = "Louisiana Selected", data = topNLandings()$LA, type="scatter", color="#1f78b4",showInLegend = FALSE) %>%
         hc_add_series(name = "Texas Selected", data = topNLandings()$TX, type="scatter", color="#a6cee3",showInLegend = FALSE) %>% 
-      hc_add_series(name = "DWH, 2010 not included", data = allRec$star, type="line", color="black") 
+        hc_add_series(name = "DWH, 2010 not included", data = allRec$star, type="scatter", color="black", marker=list(symbol="cross")) 
       hc
       })
       output$topNlandingsOut <- renderHighchart({topNLandingsPlot()})
@@ -949,21 +941,26 @@ shinyServer <- function(input, output, session) {
       #topNout <- rbind(topNout,rev(Biomass$Biomass) )
       #rownames(topNout) <- c("Landings")
       topNout <- t(topNout)
-      x2 <- data.frame(State=x, Percent=topNout[,1]*100)
+      x2 <- data.frame(State=x, Percent=topNout[,1])
       rownames(x2) <- NULL
       x2
 })
 
 output$out32ForHire <- renderTable({
   topNForHire()
-}, hover=TRUE, bordered=TRUE,  rownames=TRUE, digits=1)
+},
+striped=TRUE,digits=1,
+caption = "For hire recreational component",
+caption.placement = getOption("xtable.caption.placement", "top"),
+caption.width = getOption("xtable.caption.width", NULL))
+
       topNLandingsForHire <- reactive({
         df1<- data.frame(YEAR=1986:2015)
         
         df2 <- data.frame(YEAR=6:9, z=1)
         df3 <- merge(df1,df2, by='YEAR', all=TRUE)
         
-        allRec <- ForHire
+        allRec <- ForHire2
         allRec <- filter(allRec, YEAR>=1986 & YEAR <=2015)
         N <- input$topNumber
         allRec <-   allRec %>% filter(YEAR <= input$Year[2] &  YEAR >= input$Year[1] & YEAR !=2010)
@@ -1014,7 +1011,7 @@ output$out32ForHire <- renderTable({
       
       ########## test high chart of all landings
       topNLandingsPlotForHire <- reactive({
-        allRec <- ForHire
+        allRec <- ForHire2
         allRec <- filter(allRec, YEAR >=1986 & YEAR <=2015)
         hc <- highchart() %>% 
           hc_xAxis(categories =allRec$YEAR) %>%
@@ -1034,15 +1031,69 @@ output$out32ForHire <- renderTable({
           hc_add_series(name = "Mississippi Selected", data = topNLandingsForHire()$MS, type="scatter", color="#b2df8a",showInLegend = FALSE) %>%
           hc_add_series(name = "Louisiana Selected", data = topNLandingsForHire()$LA, type="scatter", color="#1f78b4",showInLegend = FALSE) %>%
           hc_add_series(name = "Texas Selected", data = topNLandingsForHire()$TX, type="scatter", color="#a6cee3",showInLegend = FALSE) %>% 
-        hc_add_series(name = "DWH, 2010 not included", data = allRec$star, type="line", color="black") 
+        hc_add_series(name = "DWH, 2010 not included", data = allRec$star, type="scatter", color="black", marker=list(symbol="cross")) 
         hc
       })
       output$topNlandingsOutForHire <- renderHighchart({topNLandingsPlotForHire()})
 ### End For hire Alternative 5
       
 ##################### End Alternative 5 #################################
+###Alternative 6: Leaflet map of biomass
+      output$map <- renderLeaflet({
+        map <- leaflet() %>%
+          #addTiles() %>% 
+          addTiles('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                   options = providerTileOptions(noWrap = TRUE)) %>%
+          addTiles('http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/Mapserver/tile/{z}/{y}/{x}',
+                   options = providerTileOptions(noWrap = TRUE)) %>%
+          addScaleBar(position="bottomright") %>%
+          setView(-88, 27, zoom=5) %>% 
+          #addMiniMap() %>%
+          addPolygons(data=Fig7mid, color = ~pal(layer),weight=1,
+                      opacity=.6, fillOpacity=0.5, group='biomass') %>% 
+          addLegend("bottomright",pal = pal, 
+                    values = Fig7mid$layer,title = "Index of biomass - with artificial strucures",
+                    opacity = 0.5)  
+          #addPolygons(data=FL)
+      })
       
+    ### Table of weights
+      dfTool <- reactive({
+        df <- data.frame(Source=c("Biomass", "Landings","Effort"),
+                           FL=c(.2994,.35,.40),
+                           AL=c(.0630,.4,.3),
+                           MS=c(0.0134, .01,.02),
+                           LA=c(.2028,.2,.2),
+                           TX=c(.4213,.04,.08))
+        df
+                          })
+      output$dfToolTable <- renderTable({dfTool()},caption = "Allocation",
+                                     caption.placement = getOption("xtable.caption.placement", "top"),
+                                     caption.width = getOption("xtable.caption.width", NULL))
+         
+     
+      # output$My_table <- renderTable({
+      # 
+      #   input1 <- paste0("<input id='a", 1:ncol(dfTool()), "' class='shiny-bound-input' type='number' style='width: 50px;'>")
+      #   input2 <- paste0("<input id='b", 1:nrow(dfTool()), "' class='shiny-bound-input' type='number' style='width: 50px;'>")
+      #  cbind( dfTool(),  input1)
+      #    #rbind(cbind( dfTool(), input2), input1)
+      # 
+      # }, sanitize.text.function = function(x) x)
       
+    
+      # output$testtable <- renderTable({
+      #   row.sum <- 1:3 
+      #     for(i in 1:3){
+      #       row.sum[i] <- input[[sprintf("a%d", i)]] + input[[sprintf("b%d", i)]]  } 
+      #   data.frame(row.sum) })
+        
+      
+      # output$outTable <- renderTable({
+      #   row.sum <- 1:2
+      #   for(i in 1:2){ row.sum[i] <- input[[sprintf("a%d", i)]] + input[[sprintf("b%d", i)]] +
+      #     sum(dfTool()[i,]) } 
+      #   data.frame(row.sum) })
       ################# Links to the separate tabs##################
   observe({
     

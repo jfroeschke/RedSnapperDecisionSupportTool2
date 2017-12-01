@@ -1,0 +1,16 @@
+
+
+
+p {
+    margin: 0 0 10px;
+    font-size: 16px;
+}
+
+caption {
+text-align: center;
+font-size: 16px;
+}
+
+.content-wrapper, .right-side{
+background-color: #FFFFFF;
+}
