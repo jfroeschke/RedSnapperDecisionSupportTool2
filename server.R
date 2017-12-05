@@ -1041,79 +1041,68 @@ caption.width = getOption("xtable.caption.width", NULL))
 ###Alternative 6: Leaflet map of biomass
       output$map <- renderLeaflet({
         map
-        # map <- leaflet() %>%
-        #   #addTiles() %>% 
-        #   addTiles('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        #            options = providerTileOptions(noWrap = TRUE)) %>%
-        #   addTiles('http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/Mapserver/tile/{z}/{y}/{x}',
-        #            options = providerTileOptions(noWrap = TRUE)) %>%
-        #   addScaleBar(position="bottomright") %>%
-        #   setView(-88, 27, zoom=5) %>% 
-        #   #addMiniMap() %>%
-        #   addPolygons(data=Fig7mid, color = ~pal(layer),weight=1,
-        #               opacity=.6, fillOpacity=0.5, group='biomass') %>% 
-        #   addLegend("bottomright",pal = pal, 
-        #             values = Fig7mid$layer,title = "Index of biomass - with artificial strucures",
-        #             opacity = 0.5)  
-          #addPolygons(data=FL)
       })
       
-    ### Table of weights
+######################## Alternative 6
       dfTool <- reactive({
-        # df <- data.frame(State=c("Florida", "Alabama", "Mississippi",
-        #                          "Louisiana", "Texas"),
-        #                  Biomass=c(.2994, 0.063,0.0134,.2028,.4213),
-        #                  Landings=c(.35,.40,.01,.2,.04),
-        #                  Effort=c(.4,.3,.02,.2, .08))
         df <- data.frame(Source=c("Biomass", "Landings","Effort"),
-                           FL=c(.2994,.35,.40),
-                           AL=c(.0630,.4,.3),
-                           MS=c(0.0134, .01,.02),
-                           LA=c(.2028,.2,.2),
-                           TX=c(.4213,.04,.08))
-
+                         FL=c(.2994,.35,.40),
+                         AL=c(.0630,.4,.3),
+                         MS=c(0.0134, .01,.02),
+                         LA=c(.2028,.2,.2),
+                         TX=c(.4213,.04,.08))
+        
         for(i in 2:6){
           df[,i] <- sprintf("%1.2f%%", 100*df[,i])
         }
         df
-                          })
-      output$dfToolTable <- renderTable({dfTool()},width='300px',colnames=FALSE
-                                        #caption = "Allocation",
-                                     #caption.placement = getOption("xtable.caption.placement", "top"),
-                                     #caption.width = getOption("xtable.caption.width", NULL))
-      )
-         
-     
-      # output$My_table <- renderTable({
-      # 
-      #   input1 <- paste0("<input id='a", 1:ncol(dfTool()), "' class='shiny-bound-input' type='number' style='width: 50px;'>")
-      #   input2 <- paste0("<input id='b", 1:nrow(dfTool()), "' class='shiny-bound-input' type='number' style='width: 50px;'>")
-      #  cbind( dfTool(),  input1)
-      #    #rbind(cbind( dfTool(), input2), input1)
-      # 
-      # }, sanitize.text.function = function(x) x)
+      })
+      output$dfToolTable <- renderTable({dfTool()},width='300px',colnames=TRUE)
       
-    
-      # output$testtable <- renderTable({
-      #   row.sum <- 1:3 
-      #     for(i in 1:3){
-      #       row.sum[i] <- input[[sprintf("a%d", i)]] + input[[sprintf("b%d", i)]]  } 
-      #   data.frame(row.sum) })
-        
+      x <- reactive({
+        df <- data.frame(Source=c("Biomass", "Landings","Effort"),
+                         FL=c(.2994,.35,.40),
+                         AL=c(.0630,.4,.3),
+                         MS=c(0.0134, .01,.02),
+                         LA=c(.2028,.2,.2),
+                         TX=c(.4213,.04,.08))
+        x <- df
+        FL <- (x[1,2] *input$a1) + (x[2,2] *input$b1) + (x[3,2] *input$c1)
+        AL <- (x[1,3] *input$a1) + (x[2,3] *input$b1) + (x[3,3] *input$c1)
+        MS <- (x[1,4] *input$a1) + (x[2,4] *input$b1) + (x[3,4] *input$c1)
+        LA <- (x[1,5] *input$a1) + (x[2,5] *input$b1) + (x[3,5] *input$c1)
+        TX <- (x[1,6] *input$a1) + (x[2,6] *input$b1) + (x[3,6] *input$c1)
+        States <- data.frame(Allocation="Allocation",FL=FL, AL=AL,MS=MS, LA=LA, TX=TX)
+        for(i in 2:6){
+          States[,i] <- sprintf("%1.2f%%", 100*States[,i])
+        }
+        States
+      })
       
-      # output$outTable <- renderTable({
-      #   row.sum <- 1:2
-      #   for(i in 1:2){ row.sum[i] <- input[[sprintf("a%d", i)]] + input[[sprintf("b%d", i)]] +
-      #     sum(dfTool()[i,]) } 
-      #   data.frame(row.sum) })
-      ################# Links to the separate tabs##################
+      output$x2 <- renderTable({x()},width='300px',colnames=TRUE)
       
-      xlimitsmin <- reactive({
-        x <- input$xlimitsmax
+      checkOutput <- reactive({
+        x <- data.frame(Total=input$a1 + input$b1 +input$c1)
         x
       })
       
-      output$biomass <- renderPrint({xlimitsmin()})
+      output$check <- renderTable({
+        checkOutput()
+        if(checkOutput()!=1){
+          createAlert(session,"alert","exampleAlert",
+                      title = "Oops",
+                      content = "Both inputs should be numeric.",
+                      append = FALSE)
+          return(checkOutput())
+        }  else {
+          closeAlert(session, "exampleAlert")
+          return(checkOutput())}
+        
+        
+      },width='100px',colnames=TRUE)
+      
+################################### Alternative 6      
+
       
   observe({
     

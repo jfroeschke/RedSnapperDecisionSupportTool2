@@ -7,6 +7,7 @@ library(highcharter)
 library(shinyWidgets) # enhanced radio button
 library(reshape2)
 library(sf)
+library(shinyBS)
 
 Total <- read_csv("Total.csv")
 Total[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
@@ -162,3 +163,7 @@ percent <- function(x, digits = 2, format = "f", ...) {
 #   hc_exporting(enabled = TRUE, url="https://export.highcharts.com",
 #                filename = "Recreational Landings") %>% 
 #   hc_title(text = "Recreational red snapper landings")
+
+inline_numericInput=function(ni){
+  tags$div( class="form-inline",ni)
+}

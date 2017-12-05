@@ -8,6 +8,7 @@ shinyUI <- dashboardPage(skin="red",
     
     sidebarMenu(
       tags$head(includeCSS("Style.css")),
+      tags$head(includeCSS("Style2.css")),
       menuItem("Management alternatives", tabName = "menu1", icon = icon("question-circle")),
       menuItem("Menu 2", tabName = "menu2", icon = icon("gears")),
       div(img(src="logo.png"), style="text-align: center;")
@@ -109,23 +110,18 @@ shinyUI <- dashboardPage(skin="red",
                                       #box(tableOutput("topNdata"), width=12)
                                       ), #end tabpanel 5
                               tabPanel("Alternative 6", p(Alt6Text),
-                                       checkboxInput("Option6a", HTML("<b>Option 6a:</b> 25% biomass, 75% trips"), FALSE),
-                                       checkboxInput("Option6b", HTML("<b>Option 6b:</b> 50% biomass, 50% trips"), TRUE),
-                                       checkboxInput("Option6c", HTML("<b>Option 6c:</b> 75% biomass, 25% trips"), FALSE),
-                                       hr(),
-                                       # textInputRow(inputId="xlimitsmin", label="x-min", value = 0.0),
-                                       # textInputRow(inputId="xlimitsmax", label="x-max", value = 0.5),
-                                       div(class="column-fluid",
-                                           div(class="span3",numericInput("xlimitsmin", label = "x-min", value = 0.0)),
-                                           div(class="span3",numericInput("xlimitsmax", label = "x-max", value = 0.5)),
-                                           div(class="span3",numericInput("ylimitsmin", label = "y-min", value = 0.5)),
-                                           div(class="span3",numericInput("ylimitsmax", label = "y-max", value = 1.0))
+                                       fluidRow(
+                                         column(3,  inline_numericInput(numericInput("a1", label = "Biomass", value = 0.5, min=0, max=1, step=0.01))),
+                                         column(3, inline_numericInput(numericInput("b1", label = "Trips", value = 0.25, min=0, max=1, step=0.01))),
+                                         column(3, inline_numericInput(numericInput("c1", label = "Landings", value = 0.25, min=0, max=1, step=0.01))),
+                                         column(3, tableOutput("check"))
                                        ),
-                                       #box( numericInput("obs1", "Observations:", 10, min = 1, max = 100, width=50),
-                                            #numericInput("obs2", "Observations:", 10, min = 1, max = 100, width=50),
-                                            #numericInput("obs3", "Observations:", 10, min = 1, max = 100, width=50)),
-                                       box(tableOutput("dfToolTable"),width=12)#,
-                                       #box(tableOutput("testtable"),width=12)
+                                       fluidRow(
+                                         column(12,tableOutput("dfToolTable")),
+                                         column(12, tableOutput("x2")),
+                                         bsAlert("alert")
+                                       
+                                       )
                                         ),
                               
                               width = NULL)
