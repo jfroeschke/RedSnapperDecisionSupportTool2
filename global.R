@@ -6,6 +6,7 @@ library(leaflet)
 library(highcharter)
 library(shinyWidgets) # enhanced radio button
 library(reshape2)
+library(sf)
 
 Total <- read_csv("Total.csv")
 Total[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
@@ -27,20 +28,26 @@ ForHire2$star <- c(rep(NA, 29), 750000,rep(NA,6))
 
 ##Load data for Alternative 6
 ## rasterize.R for details.
-load("rsBiomass/mappedData.RData")
+load("mappedData.RData")
 
-# pal <- colorNumeric(
-#   palette = "viridis",
-#   domain = Fig7mid$layer, reverse=TRUE)
-# 
-# leaflet() %>% setView(-85, 25, zoom=2) %>% 
-#   addTiles() %>% 
-#   addPolygons(data=Fig7mid, color = ~pal(layer),weight=1,
-#               opacity=.6, fillOpacity=0.5, group='biomass') %>% 
-#   addLegend("bottomright",pal = pal, 
-#             values = Fig7mid$layer,title = "Index of biomass - with artificial strucures",
-#             opacity = 0.5) %>% 
-#   addPolygons(data=FL)
+pal <- colorNumeric(
+  palette = "viridis",
+  domain = Fig7mid$layer, reverse=TRUE)
+
+map <- leaflet() %>%
+  #addTiles() %>% 
+  addTiles('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+           options = providerTileOptions(noWrap = TRUE)) %>%
+  addTiles('http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/Mapserver/tile/{z}/{y}/{x}',
+           options = providerTileOptions(noWrap = TRUE)) %>%
+  addScaleBar(position="bottomright") %>%
+  setView(-88, 27, zoom=5) %>% 
+  #addMiniMap() %>%
+  addPolygons(data=Fig7mid, color = ~pal(layer),weight=1,
+              opacity=.6, fillOpacity=0.5, group='biomass') %>% 
+  addLegend("bottomright",pal = pal, 
+            values = Fig7mid$layer,title = "Index of biomass - with artificial strucures",
+            opacity = 0.5) 
 
 #########Description for UI
 Alt1Text <- HTML("For a red snapper state management program to be enacted,

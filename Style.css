@@ -14,3 +14,44 @@ font-size: 16px;
 .content-wrapper, .right-side{
 background-color: #FFFFFF;
 }
+
+.skin-red .main-header .logo {
+    background-color: #d73925bd;
+    color: #fff;
+    border-bottom: 0 solid transparent;
+}
+
+.skin-red .main-header .navbar {
+    background-color: #d73925bd;
+}
+
+.skin-red .sidebar-menu>li.active>a, .skin-red .sidebar-menu>li:hover>a {
+    color: #fff;
+    background: #1e282c;
+    border-left-color: #d73925bd;
+}
+
+.nav-tabs-custom>.nav-tabs>li.active {
+    border-top-color: #d73925bd;
+}
+
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+    margin-left: 40px;
+    font-size: 16px;
+}
+
+.form-control {
+padding-left: 45px;
+font-size: 16px;
+margin-left:125px;
+}
+
+.box{border-top: 0px;}
+
+table{
+font-size: 16px;
+}

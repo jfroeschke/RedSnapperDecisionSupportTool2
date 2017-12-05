@@ -1,6 +1,6 @@
 library(shinydashboard)
 
-shinyUI <- dashboardPage(
+shinyUI <- dashboardPage(skin="red",
   
   dashboardHeader(title="Red snapper"),
   
@@ -9,7 +9,8 @@ shinyUI <- dashboardPage(
     sidebarMenu(
       tags$head(includeCSS("Style.css")),
       menuItem("Management alternatives", tabName = "menu1", icon = icon("question-circle")),
-      menuItem("Menu 2", tabName = "menu2", icon = icon("gears"))
+      menuItem("Menu 2", tabName = "menu2", icon = icon("gears")),
+      div(img(src="logo.png"), style="text-align: center;")
       
     )
     
@@ -112,6 +113,14 @@ shinyUI <- dashboardPage(
                                        checkboxInput("Option6b", HTML("<b>Option 6b:</b> 50% biomass, 50% trips"), TRUE),
                                        checkboxInput("Option6c", HTML("<b>Option 6c:</b> 75% biomass, 25% trips"), FALSE),
                                        hr(),
+                                       # textInputRow(inputId="xlimitsmin", label="x-min", value = 0.0),
+                                       # textInputRow(inputId="xlimitsmax", label="x-max", value = 0.5),
+                                       div(class="column-fluid",
+                                           div(class="span3",numericInput("xlimitsmin", label = "x-min", value = 0.0)),
+                                           div(class="span3",numericInput("xlimitsmax", label = "x-max", value = 0.5)),
+                                           div(class="span3",numericInput("ylimitsmin", label = "y-min", value = 0.5)),
+                                           div(class="span3",numericInput("ylimitsmax", label = "y-max", value = 1.0))
+                                       ),
                                        #box( numericInput("obs1", "Observations:", 10, min = 1, max = 100, width=50),
                                             #numericInput("obs2", "Observations:", 10, min = 1, max = 100, width=50),
                                             #numericInput("obs3", "Observations:", 10, min = 1, max = 100, width=50)),

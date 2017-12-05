@@ -1040,36 +1040,48 @@ caption.width = getOption("xtable.caption.width", NULL))
 ##################### End Alternative 5 #################################
 ###Alternative 6: Leaflet map of biomass
       output$map <- renderLeaflet({
-        map <- leaflet() %>%
-          #addTiles() %>% 
-          addTiles('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-                   options = providerTileOptions(noWrap = TRUE)) %>%
-          addTiles('http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/Mapserver/tile/{z}/{y}/{x}',
-                   options = providerTileOptions(noWrap = TRUE)) %>%
-          addScaleBar(position="bottomright") %>%
-          setView(-88, 27, zoom=5) %>% 
-          #addMiniMap() %>%
-          addPolygons(data=Fig7mid, color = ~pal(layer),weight=1,
-                      opacity=.6, fillOpacity=0.5, group='biomass') %>% 
-          addLegend("bottomright",pal = pal, 
-                    values = Fig7mid$layer,title = "Index of biomass - with artificial strucures",
-                    opacity = 0.5)  
+        map
+        # map <- leaflet() %>%
+        #   #addTiles() %>% 
+        #   addTiles('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        #            options = providerTileOptions(noWrap = TRUE)) %>%
+        #   addTiles('http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/Mapserver/tile/{z}/{y}/{x}',
+        #            options = providerTileOptions(noWrap = TRUE)) %>%
+        #   addScaleBar(position="bottomright") %>%
+        #   setView(-88, 27, zoom=5) %>% 
+        #   #addMiniMap() %>%
+        #   addPolygons(data=Fig7mid, color = ~pal(layer),weight=1,
+        #               opacity=.6, fillOpacity=0.5, group='biomass') %>% 
+        #   addLegend("bottomright",pal = pal, 
+        #             values = Fig7mid$layer,title = "Index of biomass - with artificial strucures",
+        #             opacity = 0.5)  
           #addPolygons(data=FL)
       })
       
     ### Table of weights
       dfTool <- reactive({
+        # df <- data.frame(State=c("Florida", "Alabama", "Mississippi",
+        #                          "Louisiana", "Texas"),
+        #                  Biomass=c(.2994, 0.063,0.0134,.2028,.4213),
+        #                  Landings=c(.35,.40,.01,.2,.04),
+        #                  Effort=c(.4,.3,.02,.2, .08))
         df <- data.frame(Source=c("Biomass", "Landings","Effort"),
                            FL=c(.2994,.35,.40),
                            AL=c(.0630,.4,.3),
                            MS=c(0.0134, .01,.02),
                            LA=c(.2028,.2,.2),
                            TX=c(.4213,.04,.08))
+
+        for(i in 2:6){
+          df[,i] <- sprintf("%1.2f%%", 100*df[,i])
+        }
         df
                           })
-      output$dfToolTable <- renderTable({dfTool()},caption = "Allocation",
-                                     caption.placement = getOption("xtable.caption.placement", "top"),
-                                     caption.width = getOption("xtable.caption.width", NULL))
+      output$dfToolTable <- renderTable({dfTool()},width='300px',colnames=FALSE
+                                        #caption = "Allocation",
+                                     #caption.placement = getOption("xtable.caption.placement", "top"),
+                                     #caption.width = getOption("xtable.caption.width", NULL))
+      )
          
      
       # output$My_table <- renderTable({
@@ -1095,6 +1107,14 @@ caption.width = getOption("xtable.caption.width", NULL))
       #     sum(dfTool()[i,]) } 
       #   data.frame(row.sum) })
       ################# Links to the separate tabs##################
+      
+      xlimitsmin <- reactive({
+        x <- input$xlimitsmax
+        x
+      })
+      
+      output$biomass <- renderPrint({xlimitsmin()})
+      
   observe({
     
     updateTabsetPanel(session, "tabP1", selected = input$tabP2)
