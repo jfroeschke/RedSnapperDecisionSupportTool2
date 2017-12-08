@@ -2,7 +2,7 @@
 
 library(shinydashboard)
 
-shinyServer <- function(input, output, session) {  
+server <- function(input, output, session) {  
   
 ################# Landings chart ############################
   selectYears <- reactive({
@@ -1074,7 +1074,7 @@ caption.width = getOption("xtable.caption.width", NULL))
         TX <- (x[1,6] *input$a1) + (x[2,6] *input$b1) + (x[3,6] *input$c1)
         States <- data.frame(Allocation="Allocation",FL=FL, AL=AL,MS=MS, LA=LA, TX=TX)
         for(i in 2:6){
-          States[,i] <- sprintf("%1.2f%%", 100*States[,i])
+          States[,i] <- sprintf("%1.2f%%", 1*States[,i])
         }
         States
       })
@@ -1088,10 +1088,10 @@ caption.width = getOption("xtable.caption.width", NULL))
       
       output$check <- renderTable({
         checkOutput()
-        if(checkOutput()!=1){
+        if(checkOutput()!=100){
           createAlert(session,"alert","exampleAlert",
                       title = "Oops",
-                      content = "Both inputs should be numeric.",
+                      content = "Weights should sum to 100",
                       append = FALSE)
           return(checkOutput())
         }  else {

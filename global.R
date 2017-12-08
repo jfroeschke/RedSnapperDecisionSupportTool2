@@ -8,6 +8,8 @@ library(shinyWidgets) # enhanced radio button
 library(reshape2)
 library(sf)
 library(shinyBS)
+# library(glue)
+# library(shinycssloaders)
 
 Total <- read_csv("Total.csv")
 Total[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
@@ -30,7 +32,7 @@ ForHire2$star <- c(rep(NA, 29), 750000,rep(NA,6))
 ##Load data for Alternative 6
 ## rasterize.R for details.
 load("mappedData.RData")
-
+load("StateBoundaries.RData")
 pal <- colorNumeric(
   palette = "viridis",
   domain = Fig7mid$layer, reverse=TRUE)
@@ -45,10 +47,15 @@ map <- leaflet() %>%
   setView(-88, 27, zoom=5) %>% 
   #addMiniMap() %>%
   addPolygons(data=Fig7mid, color = ~pal(layer),weight=1,
-              opacity=.6, fillOpacity=0.5, group='biomass') %>% 
+              opacity=.6, fillOpacity=0.5, group='Biomass') %>% 
+  addPolylines(data=ALMS, color="#2ca25f", weight=3, group="State boundaries") %>% 
+     addPolylines(data=EEZ, color="#636363", weight=3, group="EEZ") %>% 
+  addPolylines(data=FLLA, color="#2ca25f", weight=3, group="Boundaries") %>% 
   addLegend("bottomright",pal = pal, 
             values = Fig7mid$layer,title = "Index of biomass - with artificial strucures",
-            opacity = 0.5) 
+            opacity = 0.5) %>% 
+  addLayersControl(overlayGroups=c("Biomass", "State boundaries", "EEZ"),
+                   options = layersControlOptions(collapsed = FALSE))
 
 #########Description for UI
 Alt1Text <- HTML("For a red snapper state management program to be enacted,
@@ -167,3 +174,5 @@ percent <- function(x, digits = 2, format = "f", ...) {
 inline_numericInput=function(ni){
   tags$div( class="form-inline",ni)
 }
+
+enableBookmarking(store="url")
