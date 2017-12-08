@@ -8,6 +8,7 @@ library(shinyWidgets) # enhanced radio button
 library(reshape2)
 library(sf)
 library(shinyBS)
+library(shinyjs)
 # library(glue)
 # library(shinycssloaders)
 
@@ -154,7 +155,10 @@ best ten years of historical landings for the years 1986-2015.
 Alternative 5 would apportion the recreational sector ACL by 
 averaging each state’s highest 10 years of red snapper landings for each 
 component for the years 1986-2015, and then converting the average landings
-into percentages.")
+into percentages.
+<p> Alternative 5 currently considers only the top 10 years for each state
+from 1986 through 2015 (2010 excluded).  However, a different number of years
+or range of years could be selected.  Use the sliders below to explore these options.")
 
 Alt6Text <- HTML("<b>Alternative 6</b> would establish an allocation of the 
 recreational sector ACL that may be used for state management programs by

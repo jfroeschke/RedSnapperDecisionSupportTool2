@@ -40,7 +40,7 @@ label {
     max-width: 100%;
     margin-bottom: 5px;
     font-weight: 700;
-    margin-left: 40px;
+    margin-left: 20px;
     font-size: 16px;
 }
 
@@ -48,7 +48,14 @@ label {
 padding-left: 45px;
 font-size: 16px;
 margin-left:125px;
+border-color: #00c0ef;
+border-width: medium;
 }*/
+
+.form-control {
+border-color: #00a65a;
+border-width: medium;
+}
 
 .box{border-top: 0px;}
 
@@ -63,4 +70,8 @@ background: rgba(255, 255, 255, 1);
     padding: 6px 10px 6px 6px;
     color: #333;
     background: rgba(255, 255, 255, 0.8);
+}
+
+div#pic{
+	width: 50px;
 }

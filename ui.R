@@ -13,7 +13,15 @@ ui <- function(request){
       tags$head(includeCSS("Style2.css")),
       menuItem("Management alternatives", tabName = "menu1"),
       #menuItem("Menu 2", tabName = "menu2", icon = icon("gears")),
-      div(img(src="logo.png"), style="text-align: center;")
+      br(),
+      br(),
+      div(img(src="logo.png"), style="text-align: center;"),
+      div(tags$a(href="mailto: portal@gulfcouncil.org", h4("portal@gulfcouncil.org")), align="center"),
+      div(br()),
+      br(),
+      br(),
+      HTML("<h5 id='title' style='text-align:center;' >Gulf of Mexico <br> Fishery Management Council <br> 2203 North Lois Avenue, Suite 1100 <br>
+     Tampa, Florida 33607 USA <br> P: 813-348-1630")
       
     )
     
@@ -58,26 +66,41 @@ ui <- function(request){
                                                                 "Option 3d: 50% of average historical landings for the years 1986-2009 and 50% of average historical landings for the years 2006-2009"), 
                                                     selected = "Option 3a: 1986 - 2009",  width='600px'),
                                      
-                                       p('* More than one option may be selected'),
-                                       p('** Not applicable to Alternative 3'),
+                                       # p('* More than one option may be selected'),
+                                       # p('** Not applicable to Alternative 3'),
                                        hr(),
                                        box(tableOutput("summaryTableAlt3"), width=6),
                                        box(tableOutput("summaryTableForHireAlt3"), width=6)
                                       ),
                               tabPanel("Alternative 4", p(Alt4Text),
+                                       fluidRow(
+                                         column(3),
+                                         column(6,
                                        selectInput("selectOption", multiple=FALSE,
                                                    h3("Select start year"),
                                                    c("Option a: 1986"="OptionA",
                                                      "Option b: 1996"="OptionB",
                                                      "Option c: 2006"="OptionC",
                                                      "Option d: 1986 and 2006"="OptionD"),
-                                                   selected=c("OptionA")),
+                                                   selected=c("OptionA"))
+                                       ),
+                                       column(3)
+                                       ), ##end fluidRow
+                                       fluidRow(
+                                         column(3),
+                                         column(6,
                                        selectInput("selectAlternative", multiple=FALSE,
                                                    h3("Select end year"),
                                                    c("Alternative 2: 2015"="ALT2",
                                                      "Alternative 3: 2009"="ALT3"),
-                                                   selected=c("ALT2")),
+                                                   selected=c("ALT2"))
+                                         ),
+                                       column(3)
+                                       ), ##end fluidRow
                                        
+                              fluidRow(
+                                column(3),
+                                column(6,
                               uiOutput("conditionalInput"),
                               conditionalPanel(
                                 condition = "input.selectAlternative == 'ALT2'",
@@ -90,27 +113,41 @@ ui <- function(request){
                                                       ),
                               conditionalPanel(
                                 condition = "input.selectAlternative == 'ALT3'",
-                                checkboxGroupInput("ALT3", "Alternative 4: Select year(s) to exclude from calculations",
+                                checkboxGroupInput("ALT3", "Alternative 3",
                                                    c("Exlude 2006" = 2006
                                                           ))#,
                                 # box(tableOutput("test"), width=6)
-                              ),
+                              )),
+                              column(3)
+                                ), #endfluid row
+                              hr(),
                               box(tableOutput("summaryTableAlt4Private"), width=6),
                               box(tableOutput("summaryTableAlt4ForHire"), width=6)
+                              
                               #box(tableOutput("test"), width=6)
                               ),
                                        
                             
                               tabPanel("Alternative 5", p(Alt5Text),
-                                      box(
+                                      # box(
+                                      #   sliderInput("topNumber", "Select number of years to include:", sep="",min = 5, max = 15, value = c(10)),
+                                      #   sliderInput("Year", "Select Years:", sep="",min = 1986, max = 2015, value = c(1986,2015))
+                                      #   ,width=12),
+                                      
+                                      fluidRow(
+                                        column(3),
+                                        column(6,
                                         sliderInput("topNumber", "Select number of years to include:", sep="",min = 5, max = 15, value = c(10)),
-                                        sliderInput("Year", "Select Years:", sep="",min = 1986, max = 2015, value = c(1986,2015))
-                                        ,width=12),
+                                        sliderInput("Year", "Select Years:", sep="",min = 1986, max = 2015, value = c(1986,2015))),
+                                        column(3)),
+                                        hr(),
                                      
                                       box(tableOutput("out32"), width=6),
-                                      box(tableOutput("out32ForHire"), width=6)#,
+                                      box(tableOutput("out32ForHire"), width=6)
+                                      
                                       #box(tableOutput("topNdata"), width=12)
                                       ), #end tabpanel 5
+                              
                               tabPanel("Alternative 6", p(Alt6Text),
                                        #bookmarkButton(label="Save settings"),
                                        fluidRow(
@@ -125,10 +162,15 @@ column(12,HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecis
 column(12, HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
                 <h4 class="btn btn-default action-button" style="fontweight:600">Option 6c:  75% biomass, 25% trips</h4>
                                             </a>'))),
+fluidRow(
+  column(12, HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
+                <h4 class="btn btn-default action-button" style="fontweight:600">Use landings data only</h4>
+                                            </a>'))),
+
 hr(),fluidRow(
     column(2),
     column(8,
-           p("some test about red snapper will go here explaining the weights")),
+           HTML("<h5>Specify percentages for variables in green boxes to calculated allocations.</h5>")),
     column(2)),
            
                                        
@@ -137,12 +179,16 @@ hr(),fluidRow(
                                          column(2,  inline_numericInput(numericInput("a1", label = "Biomass", value = 50, min=0, max=100, step=1))),
                                          column(2, inline_numericInput(numericInput("b1", label = "Trips", value = 25, min=0, max=100, step=1))),
                                          column(2, inline_numericInput(numericInput("c1", label = "Landings", value = 25, min=0, max=100, step=1))),
-                                         column(2, tableOutput("check")),
+                                         
+                                         column(2, 
+                                                inlineCSS("#check { border: 3px solid #00c0ef;;border-style: dashed;"),
+                                                tableOutput("check")),
                                          column(2)
                                        
 ),
                                        fluidRow(
                                          column(12,align="center",tableOutput("dfToolTable")),
+                                         inlineCSS("#x2 { border: 3px solid #f39c12;border-style: dashed;"),
                                          column(12,align="center", tableOutput("x2")),
                                          bsAlert("alert"),
                                          column(12,align="center",bookmarkButton(label="Save settings"))
@@ -160,7 +206,11 @@ hr(),fluidRow(
                        
                        tabBox(id = "tabP2", height=600,
                               side = "left",    
-                              tabPanel("Alternative 1", p("")),
+                              tabPanel("Alternative 1", p(""),
+                                       fluidRow(column(12#,
+                                       #div(id='pic',img(src="IMG_3627_RS.JPG"))))),
+                                       #div(HTML('<img src="www/IMG_3627_RS.JPG" alt="" width="50%" height="30%" />')
+                                       ))),
                               tabPanel("Alternative 2", p(""),
                                        highchartOutput("landingsChart"),
                                        highchartOutput("landingsChartForHire")),
