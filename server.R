@@ -1132,9 +1132,14 @@ caption.width = getOption("xtable.caption.width", NULL))
       },width='80px',colnames=TRUE)
       
   ####Pic for Alt 1.
-      # output$rsImage <- renderImage({
-      #   IMG_3627_RS.JPG
-      # })
+      output$rsImage <- renderImage({
+        return(list(
+           src='www/IMG_3627_RS.JPG',
+          #src='www/logo.png',
+          filetype='image/png',
+          width=650,
+          alt='text'))
+      }, deleteFile=FALSE)
 ################################### Alternative 6      
 
       

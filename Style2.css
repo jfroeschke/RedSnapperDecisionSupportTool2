@@ -12,3 +12,6 @@ shiny-table.spacing-s > thead > tr > th, .shiny-table.spacing-s > tbody > tr > t
 }
 
 
+h1#modaltitle{
+color: #f39c12;
+}

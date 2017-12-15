@@ -9,6 +9,7 @@ library(reshape2)
 library(sf)
 library(shinyBS)
 library(shinyjs)
+library(htmltools)
 # library(glue)
 # library(shinycssloaders)
 
@@ -50,12 +51,12 @@ map <- leaflet() %>%
   addPolygons(data=Fig7mid, color = ~pal(layer),weight=1,
               opacity=.6, fillOpacity=0.5, group='Biomass') %>% 
   addPolylines(data=ALMS, color="#2ca25f", weight=3, group="State boundaries") %>% 
-     addPolylines(data=EEZ, color="#636363", weight=3, group="EEZ") %>% 
-  addPolylines(data=FLLA, color="#2ca25f", weight=3, group="Boundaries") %>% 
+     addPolylines(data=EEZ, color="#636363", weight=3, group="EEZ boundary") %>% 
+  addPolylines(data=FLLA, color="#2ca25f", weight=3, group="State boundariess") %>% 
   addLegend("bottomright",pal = pal, 
             values = Fig7mid$layer,title = "Index of biomass - with artificial strucures",
             opacity = 0.5) %>% 
-  addLayersControl(overlayGroups=c("Biomass", "State boundaries", "EEZ"),
+  addLayersControl(overlayGroups=c("Biomass", "State boundaries", "EEZ boundary"),
                    options = layersControlOptions(collapsed = FALSE))
 
 #########Description for UI

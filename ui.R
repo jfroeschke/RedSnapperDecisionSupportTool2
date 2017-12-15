@@ -32,7 +32,11 @@ ui <- function(request){
     tabItems(
       
       tabItem(tabName = "menu1",
-              
+              ##Note these 3 lines load the modal box
+              ## Uncomment to turn on when ready
+              includeHTML('pageLoadHTML3.html'),
+              includeScript('modalJS.js'),
+              includeCSS('modalStyle.css'),
               fluidRow(
                 
                 column(width = 6,
@@ -170,7 +174,7 @@ fluidRow(
 hr(),fluidRow(
     column(2),
     column(8,
-           HTML("<h5>Specify percentages for variables in green boxes to calculated allocations.</h5>")),
+           HTML("<h3>Specify percentages for variables in green boxes to calculate weighted allocations.</h3>")),
     column(2)),
            
                                        
@@ -191,6 +195,7 @@ hr(),fluidRow(
                                          inlineCSS("#x2 { border: 3px solid #f39c12;border-style: dashed;"),
                                          column(12,align="center", tableOutput("x2")),
                                          bsAlert("alert"),
+                                         
                                          column(12,align="center",bookmarkButton(label="Save settings"))
                                        
                                        )
@@ -207,7 +212,9 @@ hr(),fluidRow(
                        tabBox(id = "tabP2", height=600,
                               side = "left",    
                               tabPanel("Alternative 1", p(""),
-                                       fluidRow(column(12#,
+                                       fluidRow(column(12,
+                                                      imageOutput("rsImage")
+                                      #div(img(src="IMG_3627_RS.JPG"), style="text-align: center;width='5%';")
                                        #div(id='pic',img(src="IMG_3627_RS.JPG"))))),
                                        #div(HTML('<img src="www/IMG_3627_RS.JPG" alt="" width="50%" height="30%" />')
                                        ))),

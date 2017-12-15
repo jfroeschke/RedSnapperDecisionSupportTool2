@@ -1,0 +1,63 @@
+.modal-content {
+    border-radius: 25px;
+}
+
+/* restyling click button modal boxes */
+.btn-default {
+    /*background-color: #3c8dbc;*/
+    border-color: #3c8dbc;
+}
+
+#text.modal-body {
+    padding: 0;
+}
+
+.modal-header {
+    border-bottom: 0;
+    background-color: #d73925bd;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+
+.modal-footer {
+    background-color: #eee;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+/* style for modal box that opens on page load*/
+
+#onOpen.modal-header {
+  
+background-color: #6993a4;
+}
+
+#onOpen.modal-footer {
+    background-color: white;
+}
+
+#onLoad.page-header {
+    margin: 0;
+}
+
+element.style {
+    color: #a94442;
+    padding-left: 0px;
+}
+
+#onLoad.page-header {
+    margin: 15;
+    background: #d73925bd;
+}
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    padding-left: 15px;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
