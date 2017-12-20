@@ -14,9 +14,10 @@
 
 .modal-header {
     border-bottom: 0;
-    background-color: #d73925bd;
+    background-color: hsla(7, 71%, 49%, 0);
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
+    padding: 0px;
 }
 
 .modal-footer {
@@ -60,4 +61,21 @@ element.style {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.modal-content {
+    border-radius: 25px;
+    width: 700px;
+}
 
+
+p#first{
+     padding-left: 30px;
+    padding-right: 30px;
+}
+p#second{
+     padding-left: 30px;
+    padding-right: 30px;
+}
+p#last{
+     padding-left: 30px;
+    padding-right: 30px;
+}

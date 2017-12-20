@@ -52,11 +52,11 @@ map <- leaflet() %>%
               opacity=.6, fillOpacity=0.5, group='Biomass') %>% 
   addPolylines(data=ALMS, color="#2ca25f", weight=3, group="State boundaries") %>% 
      addPolylines(data=EEZ, color="#636363", weight=3, group="EEZ boundary") %>% 
-  addPolylines(data=FLLA, color="#2ca25f", weight=3, group="State boundariess") %>% 
+  addPolylines(data=FLLA, color="#2ca25f", weight=3, group="State boundaries2") %>% 
   addLegend("bottomright",pal = pal, 
             values = Fig7mid$layer,title = "Index of biomass - with artificial strucures",
             opacity = 0.5) %>% 
-  addLayersControl(overlayGroups=c("Biomass", "State boundaries", "EEZ boundary"),
+  addLayersControl(overlayGroups=c("Biomass","State boundaries", "EEZ boundary"),
                    options = layersControlOptions(collapsed = FALSE))
 
 #########Description for UI

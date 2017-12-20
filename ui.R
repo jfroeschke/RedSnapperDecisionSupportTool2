@@ -34,7 +34,7 @@ ui <- function(request){
       tabItem(tabName = "menu1",
               ##Note these 3 lines load the modal box
               ## Uncomment to turn on when ready
-              includeHTML('pageLoadHTML3.html'),
+              includeHTML('pageLoadHTML4.html'),
               includeScript('modalJS.js'),
               includeCSS('modalStyle.css'),
               fluidRow(
@@ -155,26 +155,48 @@ ui <- function(request){
                               tabPanel("Alternative 6", p(Alt6Text),
                                        #bookmarkButton(label="Save settings"),
                                        fluidRow(
-column(12, HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
+column(5, div(HTML("<h4 id='A6title' style='text-align:center;' ><b>Alternative 6:</b>")),
+
+HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
                 <h4 class="btn btn-default action-button" style="fontweight:600">Option 6a:  25% biomass, 75% trips</h4>
-                </a>'))),
+                </a>'),
+       HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
+                <h4 class="btn btn-default action-button" style="fontweight:600">Option 6a:  25% biomass, 75% trips</h4>
+                </a>'),
+HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
+                <h4 class="btn btn-default action-button" style="fontweight:600">Option 6a:  25% biomass, 75% trips</h4>
+                </a>'))
+       
+       ,
+column(2, HTML("<br><b> Or</b>")),
+column(5,
+       pickerInput(inputId = "somevalue", 
+                   label = "Landings based-alternatives",
+                   choices = list("Alternative 2" = c("2a","2b", "2c","2d"),
+                                  "Alternative 3" = c("3a","3b", "3c", "3d")))
+       )
+
+),
                                        fluidRow(
-column(12,HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.5&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.5&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
-                <h4 class="btn btn-default action-button" style="fontweight:600">Option 6b:  50% biomass, 50% trips</h4>
-                                            </a>'))),
-                                       fluidRow(
-column(12, HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
-                <h4 class="btn btn-default action-button" style="fontweight:600">Option 6c:  75% biomass, 25% trips</h4>
-                                            </a>'))),
-fluidRow(
-  column(12, HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
-                <h4 class="btn btn-default action-button" style="fontweight:600">Use landings data only</h4>
-                                            </a>'))),
+# column(5,HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.5&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.5&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
+#                 <h4 class="btn btn-default action-button" style="fontweight:600">Option 6b:  50% biomass, 50% trips</h4>
+#                                             </a>')),
+#column(2, HTML('<b>Or </b>')),
+column(12, div(HTML("<h4 id='A6Note' style='text-align:center;' ><b>Results displayed in orange box below</b>")))
+),
+#                                        fluidRow(
+# column(12, HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
+#                 <h4 class="btn btn-default action-button" style="fontweight:600">Option 6c:  75% biomass, 25% trips</h4>
+#                                             </a>'))),
+# fluidRow(
+#   column(12, HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
+#                 <h4 class="btn btn-default action-button" style="fontweight:600">Use landings data only</h4>
+#                                             </a>'))),
 
 hr(),fluidRow(
     column(2),
     column(8,
-           HTML("<h3>Specify percentages for variables in green boxes to calculate weighted allocations.</h3>")),
+           div(HTML("<h4 id='A6Inst' style='text-align:center;' > <b>Or <br>Specify percentages for variables in green boxes to calculate weighted allocations.</b></h4>"))),
     column(2)),
            
                                        
