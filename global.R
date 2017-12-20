@@ -15,6 +15,8 @@ library(htmltools)
 
 Total <- read_csv("Total.csv")
 Total[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
+Total2 <- read_csv("Total2.csv")
+Total2[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
 Total$star <- c(rep(NA, 29), 1750000,rep(NA,6))
 Private <- read_csv("PrivateAngling2.csv")
 Private[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
@@ -164,7 +166,9 @@ or range of years could be selected.  Use the sliders below to explore these opt
 Alt6Text <- HTML("<b>Alternative 6</b> would establish an allocation of the 
 recreational sector ACL that may be used for state management programs by
 apportioning the private angling ACL and federal for-hire ACL among the states 
-based on spatial abundance of red snapper biomass and recreational trips using")
+based on spatial abundance of red snapper biomass and recreational trips based
+                 on the selected recreational components, time series for trips 
+                 (or landings), and weighting factors.")
 
 percent <- function(x, digits = 2, format = "f", ...) {
   paste0(formatC(100 * x, format = format, digits = digits, ...), "%")

@@ -1070,30 +1070,149 @@ caption.width = getOption("xtable.caption.width", NULL))
       
 ######################## Alternative 6
       dfTool <- reactive({
-        df <- data.frame(Source=c("Biomass", "Landings","Trips"),
-                         FL=c(.2994,.35,.40),
-                         AL=c(.0630,.4,.3),
-                         MS=c(0.0134, .01,.02),
-                         LA=c(.2028,.2,.2),
-                         TX=c(.4213,.04,.08))
+        # df <- data.frame(Source=c("Biomass", "Landings","Trips"),
+        #                  FL=c(.2994,.35,.40),
+        #                  AL=c(.0630,.4,.3),
+        #                  MS=c(0.0134, .01,.02),
+        #                  LA=c(.2028,.2,.2),
+        #                  TX=c(.4213,.04,.08))
         
+        if(input$Id073=="All"){
+          tmp <- filter(Total2, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+          if(input$TimeSeriesSelect=="1986 - 2015"){
+            tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+              } else
+                if(input$TimeSeriesSelect=="1996 - 2015"){
+                  tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2015 & YEAR !=2010)
+                } else
+                  if(input$TimeSeriesSelect=="2006 - 2015"){
+                    tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)
+                  } else
+                    if(input$TimeSeriesSelect=="1986 - 2009"){
+                      tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
+                    } else
+                      if(input$TimeSeriesSelect=="1996 - 2009"){
+                        tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2009 & YEAR !=2010)
+                      } else
+                        if(input$TimeSeriesSelect=="2006 - 2009"){
+                          tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
+                        } 
+        
+          x <- tmp %>% melt(id="YEAR")
+          colnames(x) <- c("Year", "State", "Landings")
+          x2 <- group_by(x, State) %>% 
+            summarise(Landings=mean(Landings) )
+          x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
+          x2$State <- c("FL", "AL", "MS", "LA", "TX")
+          x2
+          landOut <- x2$Landings
+          
+          
+          df <- data.frame(Source=c("Biomass", "Landings","Trips"),
+                           FL=c(.2994,landOut[1],1),
+                           AL=c(.0630,landOut[2],1),
+                           MS=c(0.0134,landOut[3],1),
+                           LA=c(.2028,landOut[4],1),
+                           TX=c(.4213,landOut[5],1))
+        } else 
+          if(input$Id073=="Private"){
+            tmp <- filter(Private, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+            if(input$TimeSeriesSelect=="1986 - 2015"){
+              tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+            } else
+              if(input$TimeSeriesSelect=="1996 - 2015"){
+                tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2015 & YEAR !=2010)
+              } else
+                if(input$TimeSeriesSelect=="2006 - 2015"){
+                  tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)
+                } else
+                  if(input$TimeSeriesSelect=="1986 - 2009"){
+                    tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
+                  } else
+                    if(input$TimeSeriesSelect=="1996 - 2009"){
+                      tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2009 & YEAR !=2010)
+                    } else
+                      if(input$TimeSeriesSelect=="2006 - 2009"){
+                        tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
+                      } 
+            x <- tmp %>% select(-star) %>%  melt(id="YEAR")
+            colnames(x) <- c("Year", "State", "Landings")
+            x2 <- group_by(x, State) %>% 
+              summarise(Landings=mean(Landings) )
+            x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
+            x2$State <- c("FL", "AL", "MS", "LA", "TX")
+            x2
+            landOut <- x2$Landings
+            
+            
+            df <- data.frame(Source=c("Biomass", "Landings","Trips"),
+                             FL=c(.2994,landOut[1],1),
+                             AL=c(.0630,landOut[2],1),
+                             MS=c(0.0134,landOut[3],1),
+                             LA=c(.2028,landOut[4],1),
+                             TX=c(.4213,landOut[5],1))
+          } else
+            if(input$Id073=="For-hire"){
+              tmp <- filter(ForHire, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+              if(input$TimeSeriesSelect=="1986 - 2015"){
+                tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+              } else
+                if(input$TimeSeriesSelect=="1996 - 2015"){
+                  tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2015 & YEAR !=2010)
+                } else
+                  if(input$TimeSeriesSelect=="2006 - 2015"){
+                    tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)
+                  } else
+                    if(input$TimeSeriesSelect=="1986 - 2009"){
+                      tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
+                    } else
+                      if(input$TimeSeriesSelect=="1996 - 2009"){
+                        tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2009 & YEAR !=2010)
+                      } else
+                        if(input$TimeSeriesSelect=="2006 - 2009"){
+                          tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
+                        } 
+              x <- tmp %>% select(-star) %>%  melt(id="YEAR")
+              colnames(x) <- c("Year", "State", "Landings")
+              x2 <- group_by(x, State) %>% 
+                summarise(Landings=mean(Landings) )
+              x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
+              x2$State <- c("FL", "AL", "MS", "LA", "TX")
+              x2
+              landOut <- x2$Landings
+              
+              
+              df <- data.frame(Source=c("Biomass", "Landings","Trips"),
+                               FL=c(.2994,landOut[1],1),
+                               AL=c(.0630,landOut[2],1),
+                               MS=c(0.0134,landOut[3],1),
+                               LA=c(.2028,landOut[4],1),
+                               TX=c(.4213,landOut[5],1))
+            }
+        
+      }) #end Dftool
+       
+      dfTool2 <- reactive({
+        df <- dfTool()
         for(i in 2:6){
-          df[,i] <- sprintf("%1.2f%%", 100*df[,i])
+          df[,i] <- sprintf("%1.1f%%", 100*df[,i])
         }
         df <- rbind(df[1,],df[3,], df[2,]) 
-        df 
+        #RN <- input$Id073
+        df$Source <- c("Biomass","Trips", paste(input$Id073, "Landings", sep=" "))
+        df
         
       })
-      output$dfToolTable <- renderTable({dfTool()},width='300px',colnames=TRUE)
+      output$dfToolTable <- renderTable({dfTool2()},width='300px',colnames=TRUE)
       
       x <- reactive({
-        df <- data.frame(Source=c("Biomass", "Landings","Trips"),
-                         FL=c(.2994,.35,.40),
-                         AL=c(.0630,.4,.3),
-                         MS=c(0.0134, .01,.02),
-                         LA=c(.2028,.2,.2),
-                         TX=c(.4213,.04,.08))
-        x <- df
+        # df <- data.frame(Source=c("Biomass", "Landings","Trips"),
+        #                  FL=c(.2994,.35,.40),
+        #                  AL=c(.0630,.4,.3),
+        #                  MS=c(0.0134, .01,.02),
+        #                  LA=c(.2028,.2,.2),
+        #                  TX=c(.4213,.04,.08))
+        x <- dfTool()
         ##Note: inputs c1 and b1 were switched as table order was reversed 
         ## for Effort and Landings
         FL <- (x[1,2] *input$a1) + (x[2,2] *input$c1) + (x[3,2] *input$b1)
@@ -1103,7 +1222,7 @@ caption.width = getOption("xtable.caption.width", NULL))
         TX <- (x[1,6] *input$a1) + (x[2,6] *input$c1) + (x[3,6] *input$b1)
         States <- data.frame(Allocation="Allocation",FL=FL, AL=AL,MS=MS, LA=LA, TX=TX)
         for(i in 2:6){
-          States[,i] <- sprintf("%1.2f%%", 1*States[,i])
+          States[,i] <- sprintf("%1.1f%%", 1*States[,i])
         }
         
         States
