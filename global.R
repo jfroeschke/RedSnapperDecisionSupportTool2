@@ -33,6 +33,10 @@ ForHire2 <- read_csv("ForHire.csv")
 ForHire2[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
 ForHire2$star <- c(rep(NA, 29), 750000,rep(NA,6))
 
+###Load effort data for Alternative 6
+TotalEffort <- read_csv("TotalEffort.csv")
+PrivateEffort <- read_csv("PrivateEffort.csv")
+ForHireEffort <- read_csv("ForhireEffort.csv")
 ##Load data for Alternative 6
 ## rasterize.R for details.
 load("mappedData.RData")
@@ -58,7 +62,8 @@ map <- leaflet() %>%
   addLegend("bottomright",pal = pal, 
             values = Fig7mid$layer,title = "Index of biomass - with artificial strucures",
             opacity = 0.5) %>% 
-  addLayersControl(overlayGroups=c("Biomass","State boundaries", "EEZ boundary"),
+  addLayersControl(overlayGroups=c("Biomass",#"State boundaries",
+                                   "EEZ boundary"),
                    options = layersControlOptions(collapsed = FALSE))
 
 #########Description for UI

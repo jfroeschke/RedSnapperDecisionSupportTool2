@@ -1191,9 +1191,154 @@ caption.width = getOption("xtable.caption.width", NULL))
             }
         
       }) #end Dftool
-       
+      
+  ##################Effort reactive for Alternative 6
+      dfToolEffort <- reactive({
+        ##convert to proportions similar to landigs
+        TotalEffort$Total <- rowSums(TotalEffort[,2:6])
+        TotalEffort$FL <- TotalEffort$FL/TotalEffort$Total
+        TotalEffort$AL <- TotalEffort$AL/TotalEffort$Total
+        TotalEffort$MS <- TotalEffort$MS/TotalEffort$Total
+        TotalEffort$LA <- TotalEffort$LA/TotalEffort$Total
+        TotalEffort$TX <- TotalEffort$TX/TotalEffort$Total
+        TotalEffort <- TotalEffort %>% select(-Total)
+        if(input$Id073=="All"){
+          tmp <- filter(TotalEffort, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+          if(input$TimeSeriesSelect=="1986 - 2015"){
+            tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+          } else
+            if(input$TimeSeriesSelect=="1996 - 2015"){
+              tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2015 & YEAR !=2010)
+            } else
+              if(input$TimeSeriesSelect=="2006 - 2015"){
+                tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)
+              } else
+                if(input$TimeSeriesSelect=="1986 - 2009"){
+                  tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
+                } else
+                  if(input$TimeSeriesSelect=="1996 - 2009"){
+                    tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2009 & YEAR !=2010)
+                  } else
+                    if(input$TimeSeriesSelect=="2006 - 2009"){
+                      tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
+                    } 
+          
+          x <- tmp %>% melt(id="YEAR")
+          colnames(x) <- c("Year", "State", "Effort")
+          x2 <- group_by(x, State) %>% 
+            summarise(Effort=mean(Effort) )
+          x2$Allocation <- (x2$Effort/sum(x2$Effort))*100
+          x2$State <- c("FL", "AL", "MS", "LA", "TX")
+          x2
+          effortOut <- x2$Effort
+          
+          ##not(columns 1 and 2 will not be used.
+          df <- data.frame(Source=c("Biomass", "Landings","Trips"),
+                           FL=c(.2994,1,effortOut[1]),
+                           AL=c(.0630,1,effortOut[2]),
+                           MS=c(0.0134,1,effortOut[3]),
+                           LA=c(.2028,1,effortOut[4]),
+                           TX=c(.4213,1, effortOut[5]))
+        } else 
+          if(input$Id073=="Private"){
+            PrivateEffort$Private <- rowSums(PrivateEffort[,2:6])
+            PrivateEffort$FL <- PrivateEffort$FL/PrivateEffort$Private
+            PrivateEffort$AL <- PrivateEffort$AL/PrivateEffort$Private
+            PrivateEffort$MS <- PrivateEffort$MS/PrivateEffort$Private
+            PrivateEffort$LA <- PrivateEffort$LA/PrivateEffort$Private
+            PrivateEffort$TX <- PrivateEffort$TX/PrivateEffort$Private
+            PrivateEffort <- PrivateEffort %>% select(-Private)
+            tmp <- filter(PrivateEffort, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+            if(input$TimeSeriesSelect=="1986 - 2015"){
+              tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+            } else
+              if(input$TimeSeriesSelect=="1996 - 2015"){
+                tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2015 & YEAR !=2010)
+              } else
+                if(input$TimeSeriesSelect=="2006 - 2015"){
+                  tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)
+                } else
+                  if(input$TimeSeriesSelect=="1986 - 2009"){
+                    tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
+                  } else
+                    if(input$TimeSeriesSelect=="1996 - 2009"){
+                      tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2009 & YEAR !=2010)
+                    } else
+                      if(input$TimeSeriesSelect=="2006 - 2009"){
+                        tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
+                      } 
+            x <- tmp  %>%  melt(id="YEAR")
+            colnames(x) <- c("Year", "State", "Effort")
+            x2 <- group_by(x, State) %>% 
+              summarise(Effort=mean(Effort) )
+            x2$Allocation <- (x2$Effort/sum(x2$Effort))*100
+            x2$State <- c("FL", "AL", "MS", "LA", "TX")
+            x2
+            effortOut <- x2$Effort
+            
+            
+            ##not(columns 1 and 2 will not be used.
+            df <- data.frame(Source=c("Biomass", "Landings","Trips"),
+                             FL=c(.2994,1,effortOut[1]),
+                             AL=c(.0630,1,effortOut[2]),
+                             MS=c(0.0134,1,effortOut[3]),
+                             LA=c(.2028,1,effortOut[4]),
+                             TX=c(.4213,1, effortOut[5]))
+          } else
+            if(input$Id073=="For-hire"){
+              ForHireEffort$ForHire <- rowSums(ForHireEffort[,2:6])
+              ForHireEffort$FL <- ForHireEffort$FL/ForHireEffort$ForHire
+              ForHireEffort$AL <- ForHireEffort$AL/ForHireEffort$ForHire
+              ForHireEffort$MS <- ForHireEffort$MS/ForHireEffort$ForHire
+              ForHireEffort$LA <- ForHireEffort$LA/ForHireEffort$ForHire
+              ForHireEffort$TX <- ForHireEffort$TX/ForHireEffort$ForHire
+              ForHireEffort <- ForHireEffort %>% select(-ForHire)
+              tmp <- filter(ForHireEffort, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+              if(input$TimeSeriesSelect=="1986 - 2015"){
+                tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+              } else
+                if(input$TimeSeriesSelect=="1996 - 2015"){
+                  tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2015 & YEAR !=2010)
+                } else
+                  if(input$TimeSeriesSelect=="2006 - 2015"){
+                    tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)
+                  } else
+                    if(input$TimeSeriesSelect=="1986 - 2009"){
+                      tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
+                    } else
+                      if(input$TimeSeriesSelect=="1996 - 2009"){
+                        tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2009 & YEAR !=2010)
+                      } else
+                        if(input$TimeSeriesSelect=="2006 - 2009"){
+                          tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
+                        } 
+              x <- tmp  %>%  melt(id="YEAR")
+              colnames(x) <- c("Year", "State", "Effort")
+              x2 <- group_by(x, State) %>% 
+                summarise(Effort=mean(Effort) )
+              x2$Allocation <- (x2$Effort/sum(x2$Effort))*100
+              x2$State <- c("FL", "AL", "MS", "LA", "TX")
+              x2
+              effortOut <- x2$Effort
+              
+              
+              ##not(columns 1 and 2 will not be used.
+              df <- data.frame(Source=c("Biomass", "Landings","Trips"),
+                               FL=c(.2994,1,effortOut[1]),
+                               AL=c(.0630,1,effortOut[2]),
+                               MS=c(0.0134,1,effortOut[3]),
+                               LA=c(.2028,1,effortOut[4]),
+                               TX=c(.4213,1, effortOut[5]))
+            }
+        
+      }) #end DftoolEffort
+############################End Effort reactive for Alternative 6      
+
       dfTool2 <- reactive({
         df <- dfTool()
+        df2 <- dfToolEffort() ## get effort table
+        #replace row 2 of df with row 2 of df2
+        df[3,] <- df2[3,]
         for(i in 2:6){
           df[,i] <- sprintf("%1.1f%%", 100*df[,i])
         }
@@ -1206,12 +1351,7 @@ caption.width = getOption("xtable.caption.width", NULL))
       output$dfToolTable <- renderTable({dfTool2()},width='300px',colnames=TRUE)
       
       x <- reactive({
-        # df <- data.frame(Source=c("Biomass", "Landings","Trips"),
-        #                  FL=c(.2994,.35,.40),
-        #                  AL=c(.0630,.4,.3),
-        #                  MS=c(0.0134, .01,.02),
-        #                  LA=c(.2028,.2,.2),
-        #                  TX=c(.4213,.04,.08))
+  
         x <- dfTool()
         ##Note: inputs c1 and b1 were switched as table order was reversed 
         ## for Effort and Landings
@@ -1220,7 +1360,7 @@ caption.width = getOption("xtable.caption.width", NULL))
         MS <- (x[1,4] *input$a1) + (x[2,4] *input$c1) + (x[3,4] *input$b1)
         LA <- (x[1,5] *input$a1) + (x[2,5] *input$c1) + (x[3,5] *input$b1)
         TX <- (x[1,6] *input$a1) + (x[2,6] *input$c1) + (x[3,6] *input$b1)
-        States <- data.frame(Allocation="Allocation",FL=FL, AL=AL,MS=MS, LA=LA, TX=TX)
+        States <- data.frame(Allocation=paste(input$Id073, "Allocation", sep=" "),FL=FL, AL=AL,MS=MS, LA=LA, TX=TX)
         for(i in 2:6){
           States[,i] <- sprintf("%1.1f%%", 1*States[,i])
         }
@@ -1260,8 +1400,77 @@ caption.width = getOption("xtable.caption.width", NULL))
           alt='text'))
       }, deleteFile=FALSE)
 ################################### Alternative 6      
+##Alt 6 links
+      output$Links1 <- renderUI({
+        if(input$Id073=="All"){
+      HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=75&c1=0&Id073=%22All%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.3447265625%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.65625%7D&map_center=%7B%22lng%22%3A-88.00048828125%2C%22lat%22%3A26.9808285904721%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%221996%20-%202015%22&topNumber=10&Year=%5B1986%2C2015%5D">
+                <h4 class="btn btn-default action-button" style="fontweight:600">6a:  25% biomass, 75% trips</h4>
+           </a>')
 
+        }
+        })
       
+      output$Links2 <- renderUI({
+        if(input$Id073=="All"){
+          HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=50&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=50&c1=0&Id073=%22All%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.3447265625%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.65625%7D&map_center=%7B%22lng%22%3A-88.00048828125%2C%22lat%22%3A26.9808285904721%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%221996%20-%202015%22&topNumber=10&Year=%5B1986%2C2015%5D">
+               <h4 class="btn btn-default action-button" style="fontweight:600">6b:  50% biomass, 50% trips</h4>
+               </a>')
+        }
+      })
+      output$Links3 <- renderUI({
+        if(input$Id073=="All"){
+          HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=75&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=25&c1=0&Id073=%22All%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.3447265625%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.65625%7D&map_center=%7B%22lng%22%3A-88.00048828125%2C%22lat%22%3A26.9808285904721%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%221996%20-%202015%22&topNumber=10&Year=%5B1986%2C2015%5D">
+               <h4 class="btn btn-default action-button" style="fontweight:600">6c:  75% biomass, 25% trips</h4>
+               </a>')
+        }
+      })
+      output$Links4 <- renderUI({
+        if(input$Id073=="Private"){
+          HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=75&c1=0&Id073=%22Private%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.3447265625%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.65625%7D&map_center=%7B%22lng%22%3A-88.00048828125%2C%22lat%22%3A26.9808285904721%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_shape_mouseout=%7B%22id%22%3Anull%2C%22.nonce%22%3A0.921168650987262%2C%22group%22%3A%22Biomass%22%2C%22lat%22%3A29.343875399418%2C%22lng%22%3A-95.77880859375%7D&map_shape_mouseover=%7B%22id%22%3Anull%2C%22.nonce%22%3A0.55099619550435%2C%22group%22%3A%22Biomass%22%2C%22lat%22%3A29.4969875965358%2C%22lng%22%3A-94.28466796875%7D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%221986%20-%202015%22&topNumber=10&Year=%5B1986%2C2015%5D">
+                          <h4 class="btn btn-default action-button" style="fontweight:600">6a:  25% biomass, 75% trips</h4>
+                          </a>')
+          
+        }
+      })
+      
+      output$Links5 <- renderUI({
+        if(input$Id073=="Private"){
+          HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=50&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=50&c1=0&Id073=%22Private%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.3447265625%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.65625%7D&map_center=%7B%22lng%22%3A-88.00048828125%2C%22lat%22%3A26.9808285904721%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_shape_mouseout=%7B%22id%22%3Anull%2C%22.nonce%22%3A0.921168650987262%2C%22group%22%3A%22Biomass%22%2C%22lat%22%3A29.343875399418%2C%22lng%22%3A-95.77880859375%7D&map_shape_mouseover=%7B%22id%22%3Anull%2C%22.nonce%22%3A0.55099619550435%2C%22group%22%3A%22Biomass%22%2C%22lat%22%3A29.4969875965358%2C%22lng%22%3A-94.28466796875%7D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%221986%20-%202015%22&topNumber=10&Year=%5B1986%2C2015%5D">
+               <h4 class="btn btn-default action-button" style="fontweight:600">6b:  50% biomass, 50% trips</h4>
+               </a>')
+        }
+      })
+      output$Links6 <- renderUI({
+        if(input$Id073=="Private"){
+          HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=75&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=25&c1=0&Id073=%22Private%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.3447265625%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.65625%7D&map_center=%7B%22lng%22%3A-88.00048828125%2C%22lat%22%3A26.9808285904721%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%221986%20-%202015%22&topNumber=10&Year=%5B1986%2C2015%5D">
+               <h4 class="btn btn-default action-button" style="fontweight:600">6c:  75% biomass, 25% trips</h4>
+               </a>')
+        }
+      })
+      output$Links7 <- renderUI({
+        if(input$Id073=="For-hire"){
+          HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=75&c1=0&Id073=%22For-hire%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88.00048828125%2C%22lat%22%3A26.9808285904721%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%222006%20-%202009%22&topNumber=10&Year=%5B1986%2C2015%5D">
+               <h4 class="btn btn-default action-button" style="fontweight:600">6a:  25% biomass, 75% trips</h4>
+               </a>')
+          
+        }
+      })
+      
+      output$Links8 <- renderUI({
+        if(input$Id073=="For-hire"){
+          HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=50&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=50&c1=0&Id073=%22For-hire%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-72.94921875%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-103.0517578125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%221986%20-%202015%22&topNumber=10&Year=%5B1986%2C2015%5D">
+               <h4 class="btn btn-default action-button" style="fontweight:600">6b:  50% biomass, 50% trips</h4>
+               </a>')
+        }
+        })
+      output$Links9 <- renderUI({
+        if(input$Id073=="For-hire"){
+          HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=75&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=25&c1=0&Id073=%22For-hire%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-72.94921875%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-103.0517578125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%221986%20-%202015%22&topNumber=10&Year=%5B1986%2C2015%5D">
+               <h4 class="btn btn-default action-button" style="fontweight:600">6c:  75% biomass, 25% trips</h4>
+               </a>')
+        }
+        })
+ ###################     
   observe({
     
     updateTabsetPanel(session, "tabP1", selected = input$tabP2)

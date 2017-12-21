@@ -164,18 +164,30 @@ column(6, radioGroupButtons(inputId = "Id073",
                                                           style = "color: steelblue")))), 
 column(6, pickerInput(inputId = "TimeSeriesSelect", 
                       label = "Select time series for trips/landings",
-                      choices = list("Select years" = c("1986 - 2015","1996 - 2015", "2006 - 2015","1986 - 2009", "1996 - 2009", "2006 - 2009")))),
+                      choices = list("Select years" = c("1986 - 2015","1996 - 2015", "2006 - 2015",#"50% 1986 - 2015: 50% 2006 -2015",
+                                                        "1986 - 2009", "1996 - 2009", "2006 - 2009" 
+                                                        #"50% 1986 - 2015: 50% 2006 -2009"
+                                                        )))),
 column(12, div(HTML("<h4 id='A6title' style='text-align:center;' ><b>*Select an option</b>")),
-
-HTML('<a  href="http://127.0.0.1:5897/?_inputs_&a1=25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=75&c1=0&Id073=%22For-hire%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88.00048828125%2C%22lat%22%3A26.9808285904721%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%222006%20-%202009%22&topNumber=10&Year=%5B1986%2C2015%5D">
-                <h4 class="btn btn-default action-button" style="fontweight:600">Opt. 6a:  25% biomass, 75% trips</h4>
-                </a>'),
-       HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
-                <h4 class="btn btn-default action-button" style="fontweight:600">Opt. 6b:  50% biomass, 50% trips</h4>
-                </a>'),
-HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
-                <h4 class="btn btn-default action-button" style="fontweight:600">Opt. 6c:  75% biomass, 25% trips</h4>
-                </a>'))
+uiOutput("Links1", inline = TRUE),
+uiOutput("Links2", inline = TRUE),
+uiOutput("Links3", inline = TRUE),
+uiOutput("Links4", inline = TRUE),
+uiOutput("Links5", inline = TRUE),
+uiOutput("Links6", inline = TRUE),
+uiOutput("Links7", inline = TRUE),
+uiOutput("Links8", inline = TRUE),
+uiOutput("Links9", inline = TRUE)
+# HTML('<a  href="http://127.0.0.1:5897/?_inputs_&a1=25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=75&c1=0&Id073=%22For-hire%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88.00048828125%2C%22lat%22%3A26.9808285904721%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%222006%20-%202009%22&topNumber=10&Year=%5B1986%2C2015%5D">
+#                 <h4 class="btn btn-default action-button" style="fontweight:600">All Opt. 6a:  25% biomass, 75% trips</h4>
+#                 </a>'),
+#        HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
+#                 <h4 class="btn btn-default action-button" style="fontweight:600">All Opt. 6b:  50% biomass, 50% trips</h4>
+#                 </a>'),
+# HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
+#                 <h4 class="btn btn-default action-button" style="fontweight:600">All Opt. 6c:  75% biomass, 25% trips</h4>
+#                 </a>')
+)
        
        #,
 # column(2, HTML("<br><b> Or</b>")),
