@@ -1077,7 +1077,7 @@ caption.width = getOption("xtable.caption.width", NULL))
         #                  LA=c(.2028,.2,.2),
         #                  TX=c(.4213,.04,.08))
         
-        if(input$Id073=="All"){
+        if(input$Id073=="Total"){
           tmp <- filter(Total2, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
           if(input$TimeSeriesSelect=="1986 - 2015"){
             tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
@@ -1202,7 +1202,7 @@ caption.width = getOption("xtable.caption.width", NULL))
         TotalEffort$LA <- TotalEffort$LA/TotalEffort$Total
         TotalEffort$TX <- TotalEffort$TX/TotalEffort$Total
         TotalEffort <- TotalEffort %>% select(-Total)
-        if(input$Id073=="All"){
+        if(input$Id073=="Total"){
           tmp <- filter(TotalEffort, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
           if(input$TimeSeriesSelect=="1986 - 2015"){
             tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
@@ -1402,7 +1402,7 @@ caption.width = getOption("xtable.caption.width", NULL))
 ################################### Alternative 6      
 ##Alt 6 links
       output$Links1 <- renderUI({
-        if(input$Id073=="All"){
+        if(input$Id073=="Total"){
       HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=75&c1=0&Id073=%22All%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.3447265625%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.65625%7D&map_center=%7B%22lng%22%3A-88.00048828125%2C%22lat%22%3A26.9808285904721%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%221996%20-%202015%22&topNumber=10&Year=%5B1986%2C2015%5D">
                 <h4 class="btn btn-default action-button" style="fontweight:600">6a:  25% biomass, 75% trips</h4>
            </a>')
@@ -1411,14 +1411,14 @@ caption.width = getOption("xtable.caption.width", NULL))
         })
       
       output$Links2 <- renderUI({
-        if(input$Id073=="All"){
+        if(input$Id073=="Total"){
           HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=50&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=50&c1=0&Id073=%22All%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.3447265625%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.65625%7D&map_center=%7B%22lng%22%3A-88.00048828125%2C%22lat%22%3A26.9808285904721%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%221996%20-%202015%22&topNumber=10&Year=%5B1986%2C2015%5D">
                <h4 class="btn btn-default action-button" style="fontweight:600">6b:  50% biomass, 50% trips</h4>
                </a>')
         }
       })
       output$Links3 <- renderUI({
-        if(input$Id073=="All"){
+        if(input$Id073=="Total"){
           HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=75&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=25&c1=0&Id073=%22All%22&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.3447265625%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.65625%7D&map_center=%7B%22lng%22%3A-88.00048828125%2C%22lat%22%3A26.9808285904721%7D&map_groups=%5B%22Biomass%22%2C%22State%20boundaries%22%2C%22EEZ%20boundary%22%5D&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&TimeSeriesSelect=%221996%20-%202015%22&topNumber=10&Year=%5B1986%2C2015%5D">
                <h4 class="btn btn-default action-button" style="fontweight:600">6c:  75% biomass, 25% trips</h4>
                </a>')
@@ -1470,6 +1470,33 @@ caption.width = getOption("xtable.caption.width", NULL))
                </a>')
         }
         })
+      
+      # output$Linkstest <- renderUI({
+      # 
+      #   actionButton("reset_input", "Reset inputs")
+      #   
+      # })  
+      
+      # observe(input$reset_input,{
+      # 
+      #   updateNumericInput(session, "a1", value = 20)
+      #   # updateTextInput(session, "mytext", value = "test")
+      # })
+      observeEvent(input$goButton, {
+        updateNumericInput(session, "a1", value = 25)
+        updateNumericInput(session, "b1", value = 75)
+        updateNumericInput(session, "c1", value = 0)
+      })
+      observeEvent(input$goButton2, {
+        updateNumericInput(session, "a1", value = 50)
+        updateNumericInput(session, "b1", value = 50)
+        updateNumericInput(session, "c1", value = 0)
+      })
+      observeEvent(input$goButton3, {
+        updateNumericInput(session, "a1", value = 75)
+        updateNumericInput(session, "b1", value = 25)
+        updateNumericInput(session, "c1", value = 0)
+      })
  ###################     
   observe({
     
