@@ -12,9 +12,16 @@
     padding: 0;
 }
 
+h1#modaltitle {
+    margin-top:0;
+    color:rgb(255, 255, 255); 
+    text-align: center;
+    padding-top: 20px;
+}
+
 .modal-header {
     border-bottom: 0;
-    background-color: hsla(7, 71%, 49%, 0);
+    background-color: hsl(7, 69%, 62%);;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
     padding: 0px;
@@ -39,6 +46,8 @@ background-color: #6993a4;
 
 #onLoad.page-header {
     margin: 0;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
 }
 
 element.style {
@@ -78,4 +87,14 @@ p#second{
 p#last{
      padding-left: 30px;
     padding-right: 30px;
+}
+
+.btn-primary {
+    background-color: #e16c5d;
+    border-color: #e16c5d;
+}
+
+.btn-primary:hover {
+    background-color:#e33a24;
+    border-color: #e33a24;
 }

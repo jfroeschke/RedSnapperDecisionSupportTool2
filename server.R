@@ -894,6 +894,7 @@ server <- function(input, output, session) {
         hc <- highchart() %>% 
         hc_xAxis(categories =allRec$YEAR) %>%
         hc_title(text="Private recreational component") %>% 
+        hc_subtitle(text="Markers are displayed for selected years") %>% 
         hc_add_series(name = "Florida", data = allRec$FLW, type="line", marker = list(enabled = FALSE), color="#fb9a99") %>% 
         hc_add_series(name = "Alabama", data = allRec$AL, type="line", marker = list(enabled = FALSE), color="#33a02c") %>%
         hc_add_series(name = "Mississippi", data = allRec$MS, type="line", marker = list(enabled = FALSE), color="#b2df8a") %>%
@@ -1041,6 +1042,7 @@ caption.width = getOption("xtable.caption.width", NULL))
         hc <- highchart() %>% 
           hc_xAxis(categories =allRec$YEAR) %>%
           hc_title(text="For hire component") %>% 
+          hc_subtitle(text="Markers are displayed for selected years") %>% 
           # hc_xAxis(categories =allRec$YEAR,
           #          plotBands=list(
           #            list(color= "rgba(100, 0, 0, 0.1)",

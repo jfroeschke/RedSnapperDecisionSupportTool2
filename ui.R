@@ -11,7 +11,7 @@ ui <- function(request){
     sidebarMenu(
       tags$head(includeCSS("Style.css")),
       tags$head(includeCSS("Style2.css")),
-      menuItem("Management alternatives", tabName = "menu1"),
+      menuItem(" ", tabName = "menu1"),
       #menuItem("Menu 2", tabName = "menu2", icon = icon("gears")),
       br(),
       br(),
