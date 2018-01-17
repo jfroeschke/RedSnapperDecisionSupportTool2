@@ -1081,6 +1081,13 @@ caption.width = getOption("xtable.caption.width", NULL))
         
         if(input$Id073=="Total"){
           tmp <- filter(Total2, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+          ###
+          # colnames(TotalEffort) <- c("YEAR", "FLEffort", "ALEffort", "MSEffort", "LAEffort", "TXeffort")
+          # tmp2 <- filter(TotalEffort, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+          # tmp <- cbind(tmp, tmp2[,2:6])
+          ##
+          
+          
           if(input$TimeSeriesSelect=="1986 - 2015"){
             tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
               } else
@@ -1109,6 +1116,18 @@ caption.width = getOption("xtable.caption.width", NULL))
           x2
           landOut <- x2$Landings
           
+          ####
+          # x2a <- x2[1:5,]
+          # x2b <- x2[6:10,]
+          # x2a$Allocation <- (x2a$Landings/sum(x2a$Landings))*100
+          # x2a$State <- c("FL", "AL", "MS", "LA", "TX")
+          # x2b$Allocation <- (x2b$Landings/sum(x2b$Landings))*100
+          # x2b$State <- c("FL", "AL", "MS", "LA", "TX")
+          
+          landOut <- x2$Landings
+          # tripsOut <-  x2b$Allocation
+          ####
+          
           
           df <- data.frame(Source=c("Biomass", "Landings","Trips"),
                            FL=c(.2994,landOut[1],1),
@@ -1116,6 +1135,13 @@ caption.width = getOption("xtable.caption.width", NULL))
                            MS=c(0.0134,landOut[3],1),
                            LA=c(.2028,landOut[4],1),
                            TX=c(.4213,landOut[5],1))
+          # df <- data.frame(Source=c("Biomass", "Landings","Trips"),
+          #                  FL=c(.2994,landOut[1],tripsOut[1]),
+          #                  AL=c(.0630,landOut[2],tripsOut[2]),
+          #                  MS=c(0.0134,landOut[3],tripsOut[3]),
+          #                  LA=c(.2028,landOut[4],tripsOut[4]),
+          #                  TX=c(.4213,landOut[5],tripsOut[5]))
+          
         } else 
           if(input$Id073=="Private"){
             tmp <- filter(Private, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
@@ -1344,7 +1370,7 @@ caption.width = getOption("xtable.caption.width", NULL))
         for(i in 2:6){
           df[,i] <- sprintf("%1.1f%%", 100*df[,i])
         }
-        df <- rbind(df[1,],df[3,], df[2,]) 
+        df <- rbind(df[1,],df[3,], df[2,])
         #RN <- input$Id073
         df$Source <- c("Biomass","Trips", paste(input$Id073, "Landings", sep=" "))
         df
@@ -1355,13 +1381,15 @@ caption.width = getOption("xtable.caption.width", NULL))
       x <- reactive({
   
         x <- dfTool()
+        x2 <- dfToolEffort()
         ##Note: inputs c1 and b1 were switched as table order was reversed 
         ## for Effort and Landings
-        FL <- (x[1,2] *input$a1) + (x[2,2] *input$c1) + (x[3,2] *input$b1)
-        AL <- (x[1,3] *input$a1) + (x[2,3] *input$c1) + (x[3,3] *input$b1)
-        MS <- (x[1,4] *input$a1) + (x[2,4] *input$c1) + (x[3,4] *input$b1)
-        LA <- (x[1,5] *input$a1) + (x[2,5] *input$c1) + (x[3,5] *input$b1)
-        TX <- (x[1,6] *input$a1) + (x[2,6] *input$c1) + (x[3,6] *input$b1)
+        FL <- (x[1,2] *input$a1) + (x[2,2] *input$c1) + (x2[3,2] *input$b1)
+        # FL <- input$c1
+        AL <- (x[1,3] *input$a1) + (x[2,3] *input$c1) + (x2[3,3] *input$b1)
+        MS <- (x[1,4] *input$a1) + (x[2,4] *input$c1) + (x2[3,4] *input$b1)
+        LA <- (x[1,5] *input$a1) + (x[2,5] *input$c1) + (x2[3,5] *input$b1)
+        TX <- (x[1,6] *input$a1) + (x[2,6] *input$c1) + (x2[3,6] *input$b1)
         States <- data.frame(Allocation=paste(input$Id073, "Allocation", sep=" "),FL=FL, AL=AL,MS=MS, LA=LA, TX=TX)
         for(i in 2:6){
           States[,i] <- sprintf("%1.1f%%", 1*States[,i])

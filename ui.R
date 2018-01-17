@@ -176,7 +176,7 @@ fluidRow(
   column(12,
          actionButton("goButton", "6a:  25% biomass, 75% trips"),
          actionButton("goButton2", "6b:  50% biomass, 50% trips"),
-         actionButton("goButton3", "6c:  75% biomass, 0% trips")
+         actionButton("goButton3", "6c:  75% biomass, 25% trips")
   )
 ),
 ##############Experimental with action buttons

@@ -5,8 +5,8 @@ account: gulfcouncilportal
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 242642
-bundleId: 1147779
+bundleId: 1171918
 url: https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/
-when: 1513948519.17938
+when: 1515677843.55311
 asMultiple: FALSE
 asStatic: FALSE
