@@ -34,7 +34,7 @@ ui <- function(request){
       tabItem(tabName = "menu1",
               ##Note these 3 lines load the modal box
               ## Uncomment to turn on when ready
-             includeHTML('pageLoadHTML4.html'),
+             includeHTML('pageLoadHTML7.html'),
               includeScript('modalJS.js'),
               includeCSS('modalStyle.css'),
               fluidRow(
