@@ -13,11 +13,16 @@ library(htmltools)
 # library(glue)
 # library(shinycssloaders)
 
-Total <- read_csv("Total.csv")
-Total[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
-Total2 <- read_csv("Total2.csv")
-Total2[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
-Total$star <- c(rep(NA, 29), 1750000,rep(NA,6))
+# Total <- read_csv("Total.csv")
+# Total[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
+# Total2 <- read_csv("Total2.csv")
+# Total2[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
+# Total$star <- c(rep(NA, 29), 1750000,rep(NA,6))
+# 
+
+
+
+
 Private <- read_csv("PrivateAngling2.csv")
 Private[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
 Private$star <- c(rep(NA, 29), 0.325,rep(NA,6))
@@ -33,6 +38,21 @@ ForHire2 <- read_csv("ForHire.csv")
 ForHire2[30,2:6] <- NA ##remove 2010 (i.e., oil spill year)
 ForHire2$star <- c(rep(NA, 29), 750000,rep(NA,6))
 
+#########Total 2
+### Adjust methodology to weight proportions by allocation
+TotalFLW <- (Private$FLW * .577) + (ForHire$FLW * .423)
+TotalAL <- (Private$AL * .577) + (ForHire$AL * .423)
+TotalMS <- (Private$MS * .577) + (ForHire$MS * .423)
+TotalLA <- (Private$LA * .577) + (ForHire$LA * .423)
+TotalTX <- (Private$TX * .577) + (ForHire$TX * .423)
+Total3 <- tibble(YEAR = ForHire$YEAR,
+                 FLW=TotalFLW,
+                 AL=TotalAL,
+                 MS=TotalMS,
+                 LA=TotalLA,
+                 TX=TotalTX)
+Total2 <- Total3
+########################## End Total 2
 ###Load effort data for Alternative 6
 TotalEffort <- read_csv("TotalEffort.csv")
 PrivateEffort <- read_csv("PrivateEffort.csv")
